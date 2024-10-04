@@ -6,6 +6,8 @@ public class Movement : MonoBehaviour
 {
 
     public CharacterController characterController;
+    public Transform jumpCheck;
+    public Transform cam;
 
     public float speed = 6f;
 
@@ -17,9 +19,16 @@ public class Movement : MonoBehaviour
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
         if (direction.magnitude >= 0.1f) { 
-            float targetAngle = Mathf.Atan2(direction.x,direction.z) * Mathf.Rad2Deg;
+            float targetAngle = Mathf.Atan2(direction.x,direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            //float angle = 
             transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
-            characterController.Move(direction * speed * Time.deltaTime);
+
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            characterController.Move(moveDir.normalized * speed * Time.deltaTime);
+        }
+
+        if(Input.GetButtonDown("Jump")){
+
         }
 
     }
