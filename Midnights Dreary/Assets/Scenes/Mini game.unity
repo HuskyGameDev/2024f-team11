@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 375807684}
   - component: {fileID: 375807683}
   - component: {fileID: 375807682}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,7 +299,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 483347276}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08604984, y: -0.0000000042856403, z: 3.7015158e-10, w: 0.99629086}
+  m_LocalRotation: {x: 0.08604984, y: 0.0000000042856407, z: -3.701516e-10, w: 0.99629086}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1036,7 +1036,7 @@ MonoBehaviour:
   m_XAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 450
+    m_MaxSpeed: 627.44
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
@@ -1359,9 +1359,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: 1653997615}
-  jumpCheck: {fileID: 0}
+  jumpCheck: {fileID: 1281752374}
   cam: {fileID: 963194228}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
   speed: 6
+  gravity: -15
+  jumpHeight: 3
+  groundDistance: 0.4
+  turnTime: 0.2
 --- !u!1 &1675532142
 GameObject:
   m_ObjectHideFlags: 3
