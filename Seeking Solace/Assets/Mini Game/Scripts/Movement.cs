@@ -11,12 +11,16 @@ public class Movement : MonoBehaviour
     public LayerMask groundMask;
 
     public float speed = 6f;
-    public float gravity = -9.81f;
+    float gravity = -15f;
     public float jumpHeight = 3f;
     public float groundDistance = 0.4f;
     public float turnTime = 0.5f;
     bool isGrounded;
+    public bool hasGlided;
+    public bool isGliding;
+    bool waiting = false;
     float turnVelocity;
+    float timeWaited = 0f;
     Vector3 velocity;
 
     void Start()
@@ -41,17 +45,60 @@ public class Movement : MonoBehaviour
         }
 
         isGrounded = Physics.CheckSphere(jumpCheck.position, groundDistance, groundMask);
-        velocity.y += gravity * Time.deltaTime;
 
         if(Input.GetButtonDown("Jump") && isGrounded){
                 velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
 
+        if(Input.GetButtonDown("Jump") && !hasGlided && velocity.y < 0){
+            hasGlided = true;
+            isGliding = true;
+            gravity = 0;
+            speed = 15f;
+            velocity.y = -3.5f;
+            waiting = true;
+        }
+
+        if(isGliding){
+            if(timeWaited >= 1){
+                if(Input.GetButtonDown("Jump") || isGrounded){
+                    isGliding = false;
+                    gravity = -15;
+                    speed = 6f;  
+                    waiting = false;
+                    timeWaited = 0f;
+                } 
+            }
+        }
+
+        if(waiting){
+            timeWaited += 0.1f;
+        }
+
+        if(!isGliding){
+            velocity.y += gravity * Time.deltaTime;
+        }
+
         if(isGrounded && velocity.y < 0){
+            hasGlided = false;
             velocity.y = -2;
         }
 
         characterController.Move(velocity * Time.deltaTime);
 
     }
+/*
+    IEnumerator Glide()
+    {
+        gravity = 0;
+        velocity.y = -5f;
+        yield return new WaitForSeconds(0.5f);
+        if(Input.GetButtonDown("Jump") || isGrounded){
+            Debug.Log("Not Gliding");
+            isGliding = false;
+            gravity = -15;
+            yield return null;
+        }
+    }
+    */
 }
