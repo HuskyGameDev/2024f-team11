@@ -33,8 +33,14 @@ public class Movement : MonoBehaviour
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
+        if(isGliding){
+            vertical = 1f; //Mathf.Clamp(vertical, 0f, 1f);
+            horizontal = 0f; //Mathf.Clamp(horizontal, -0.5f, 0.5f);
+        }
+
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
+        
         if (direction.magnitude >= 0.1f) { 
             float targetAngle = Mathf.Atan2(direction.x,direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnTime);
@@ -54,9 +60,10 @@ public class Movement : MonoBehaviour
             hasGlided = true;
             isGliding = true;
             gravity = 0;
-            speed = 15f;
-            velocity.y = -3.5f;
+            //speed = 15f;
+            velocity.y = -3f;
             waiting = true;
+            StartCoroutine(Glide());
         }
 
         if(isGliding){
@@ -87,9 +94,20 @@ public class Movement : MonoBehaviour
         characterController.Move(velocity * Time.deltaTime);
 
     }
-/*
+
     IEnumerator Glide()
     {
+        yield return new WaitForSeconds(0.3f);
+        while(speed < 15f){
+            speed += 0.75f;
+            if(!waiting){
+                break;
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+        yield return null;
+
+        /*
         gravity = 0;
         velocity.y = -5f;
         yield return new WaitForSeconds(0.5f);
@@ -99,6 +117,7 @@ public class Movement : MonoBehaviour
             gravity = -15;
             yield return null;
         }
+        */
     }
-    */
+    
 }
