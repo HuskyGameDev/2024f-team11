@@ -6,7 +6,7 @@ public class Door : MonoBehaviour
 {
     private bool isOpen = false;
     private bool isLocked = true;
-    private string lockColor = "red";
+    private KeyColor lockColor = KeyColor.red;
 
     //Open or close the door in the correct direction (away from player)
     public void Toggle(Transform player)
@@ -31,8 +31,7 @@ public class Door : MonoBehaviour
             {
                 if (heldItem.GetComponent<Key>() != null) //If held item is a key (has key component)
                 {
-                    Debug.Log("key");
-                    string keyColor = heldItem.GetComponent<Key>().GetColor();
+                    KeyColor keyColor = heldItem.GetComponent<Key>().GetColor();
                     if(keyColor == lockColor) //If keycolor matches door lock color
                     {
                         isLocked = !isLocked;

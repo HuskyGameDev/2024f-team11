@@ -1,23 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Key : MonoBehaviour
 {
-    private string keyColor = "red";
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public KeyColor keyColor = KeyColor.red;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public string GetColor()
+    public KeyColor GetColor()
     {
         return keyColor;
     }
