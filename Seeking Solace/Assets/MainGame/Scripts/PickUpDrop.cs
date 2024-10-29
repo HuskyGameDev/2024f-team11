@@ -59,4 +59,19 @@ public class PickupDrop : MonoBehaviour
             pickedUpItem = null;
         }
     }
+
+    public GameObject getPickedItem()
+    {
+        return pickedUpItem;
+    }
+
+    public void ConsumeHeldItem()
+    {
+        if (pickedUpItem != null)
+        {
+            Destroy(pickedUpItem);
+            itemRb = null;
+            pickedUpItem = null;
+        }
+    }
 }

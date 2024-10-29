@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//THIS SCRIPT IS NOT BEING USED FOR PICKUP, USE "PICKUP DROP" INSTEAD
 public class PlayerPickupDrop : MonoBehaviour
 {
     public Transform player;           // Reference to the player or camera transform
