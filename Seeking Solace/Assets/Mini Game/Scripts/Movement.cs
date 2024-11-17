@@ -10,7 +10,9 @@ public class Movement : MonoBehaviour
     public Transform cam;
     public LayerMask groundMask;
 
-    public float speed = 6f;
+    const float regularSpeed = 15f;
+
+    public float speed;
     float gravity = -15f;
     public float jumpHeight = 3f;
     public float groundDistance = 0.4f;
@@ -26,6 +28,7 @@ public class Movement : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        speed = regularSpeed;
     }
 
     // Update is called once per frame
@@ -60,8 +63,7 @@ public class Movement : MonoBehaviour
             hasGlided = true;
             isGliding = true;
             gravity = 0;
-            //speed = 15f;
-            velocity.y = -3f;
+            velocity.y = -7.5f;
             waiting = true;
             StartCoroutine(Glide());
         }
@@ -71,7 +73,7 @@ public class Movement : MonoBehaviour
                 if(Input.GetButtonDown("Jump") || isGrounded){
                     isGliding = false;
                     gravity = -15;
-                    speed = 6f;  
+                    speed = regularSpeed;  
                     waiting = false;
                     timeWaited = 0f;
                 } 
@@ -98,8 +100,8 @@ public class Movement : MonoBehaviour
     IEnumerator Glide()
     {
         yield return new WaitForSeconds(0.3f);
-        while(speed < 15f){
-            speed += 0.75f;
+        while(speed < regularSpeed * 2){
+            speed += 1f;
             if(!waiting){
                 break;
             }
