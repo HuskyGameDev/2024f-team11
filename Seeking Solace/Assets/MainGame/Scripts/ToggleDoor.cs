@@ -10,7 +10,7 @@ public class ToggleDoor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F)) //Press 'F' to toggle doors}
+        if (Input.GetKeyDown(KeyCode.T)) //Press 'T' to toggle doors}
         {
             TryOpenDoor();
         }
@@ -19,12 +19,14 @@ public class ToggleDoor : MonoBehaviour
     void TryOpenDoor()
     {
         RaycastHit hit;
-
+        Debug.Log("1");
         if(Physics.Raycast(camera.position, camera.forward, out hit, interactRange))
         {
+            Debug.Log("2");
             if(hit.collider.CompareTag("Door"))
             {
                 hit.collider.GetComponent<Door>().Toggle(this.transform);
+                Debug.Log("3");
             }
         }
     }

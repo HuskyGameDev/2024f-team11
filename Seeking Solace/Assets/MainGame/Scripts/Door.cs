@@ -5,8 +5,14 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     private bool isOpen = false;
-    private bool isLocked = true;
+    private bool isLocked = false;
     private KeyColor lockColor = KeyColor.red;
+    public Quaternion startRotation;
+
+    private void Start()
+    {
+        startRotation = transform.rotation; //Set closed position to initial position (doors start closed)
+    }
 
     //Open or close the door in the correct direction (away from player)
     public void Toggle(Transform player)
@@ -22,7 +28,7 @@ public class Door : MonoBehaviour
         if (isOpen)
         {
             //Close the door (reset rotation to match doorframe)
-            transform.rotation = transform.parent.rotation;
+            transform.rotation = startRotation;
             isOpen = false;
         }
         else
