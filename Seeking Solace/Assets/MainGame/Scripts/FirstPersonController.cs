@@ -292,6 +292,7 @@ public class BasicFPCC : MonoBehaviour
         }
         else // - Player Move Input -
         {
+            AudioManager.Instance.PlaySound(this.gameObject, "PC_Footsteps-1");
             move = (playerTx.right * inputMoveX) + (playerTx.forward * inputMoveY);
 
             if (move.magnitude > 1f)

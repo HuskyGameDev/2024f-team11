@@ -26,8 +26,8 @@ public class AudioInitializer : MonoBehaviour
 
             if (s.source.playOnAwake)
             {
-                AudioManager.Instance.PlaySound(this.gameObject, s.name);
-            }
+                s.source.Play();
+                        }
         }
     }
 
