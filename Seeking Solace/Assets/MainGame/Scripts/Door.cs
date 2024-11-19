@@ -49,10 +49,12 @@ public class Door : MonoBehaviour
                 else
                 {
                     //Play locked sound
+                    AudioManager.Instance.PlaySound(this.gameObject, "Locked");
                 }
             }
             else
             {
+                AudioManager.Instance.PlaySound(this.gameObject, "DoorOpen");
                 OpenDoor(playerRelativePos);
             }
         }
