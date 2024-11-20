@@ -10,6 +10,8 @@ public class FMODEvents : MonoBehaviour
 
     [field: Header("Object SFX")]
     [field: SerializeField] public EventReference itemPickedUp { get; private set; }
+    [field: SerializeField] public EventReference doorOpen { get; private set; }
+    [field: SerializeField] public EventReference doorClose { get; private set; }
 
     public static FMODEvents Instance { get; private set; }
 

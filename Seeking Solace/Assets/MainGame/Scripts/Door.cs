@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMOD.Studio;
 
 public class Door : MonoBehaviour
 {
@@ -8,10 +9,14 @@ public class Door : MonoBehaviour
     private bool isLocked = false;
     private KeyColor lockColor = KeyColor.red;
     public Quaternion startRotation;
+    private EventInstance doorOpen;
+    private EventInstance doorClose;
 
     private void Start()
     {
         startRotation = transform.rotation; //Set closed position to initial position (doors start closed)
+        doorOpen = AudioManager.Instance.CreateInstance(FMODEvents.Instance.doorOpen);
+        doorClose = AudioManager.Instance.CreateInstance(FMODEvents.Instance.doorClose);
     }
 
     //Open or close the door in the correct direction (away from player)
@@ -30,6 +35,7 @@ public class Door : MonoBehaviour
             //Close the door (reset rotation to match doorframe)
             transform.rotation = startRotation;
             isOpen = false;
+            doorClose.start();
         }
         else
         {
@@ -54,6 +60,7 @@ public class Door : MonoBehaviour
             else
             {
                 OpenDoor(playerRelativePos);
+                doorOpen.start();
             }
         }
 

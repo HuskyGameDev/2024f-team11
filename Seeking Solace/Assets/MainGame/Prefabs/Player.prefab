@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 219796500656849613}
   - component: {fileID: 7534911242622759907}
   - component: {fileID: 1961125397519870057}
+  - component: {fileID: 6495042686187475789}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -127,6 +128,20 @@ MonoBehaviour:
   slideForward: {x: 0, y: 0, z: 0}
   isCeiling: 0
   cursorActive: 0
+--- !u!114 &6495042686187475789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61383211072336003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a48a369f5d660f439472934a933a289, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 2921394693691207142}
+  interactRange: 6
 --- !u!1 &6355067718420785056
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,5 +321,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
   attenuationObject: {fileID: 0}
-  ListenerNumber: -1
