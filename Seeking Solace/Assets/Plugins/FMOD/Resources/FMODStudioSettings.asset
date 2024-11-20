@@ -435,15 +435,15 @@ MonoBehaviour:
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers:
-  - fd7c55dab0fce234b8c25f6ffca523c1
-  - de700ef3f37a49b58a57ae3addf01ad9
-  - c88d16e5272a4e241b0ef0ac2e53b73d
-  - b7716510a1f36934c87976f3a81dbf3d
-  - 2c5177b11d81d824dbb064f9ac8527da
-  - 52eb9df5db46521439908db3a29a1bbb
   - e7a046c753c3c3d4aacc91f6597f310d
+  - 2c5177b11d81d824dbb064f9ac8527da
+  - fd7c55dab0fce234b8c25f6ffca523c1
   - 2fea114e74ecf3c4f920e1d5cc1c4c40
+  - c88d16e5272a4e241b0ef0ac2e53b73d
   - 46fbfdf3fc43db0458918377fd40293e
+  - 52eb9df5db46521439908db3a29a1bbb
+  - de700ef3f37a49b58a57ae3addf01ad9
+  - b7716510a1f36934c87976f3a81dbf3d
   - 0f8eb3f400726694eb47beb1a9f94ce8
   codecChannels:
     Value: []
@@ -609,10 +609,10 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: 
-  sourceBankPath: 
+  sourceProjectPath: ../Seeking Solace FMOD/Seeking Solace FMOD.fspro
+  sourceBankPath: ../Seeking Solace FMOD/Build
   sourceBankPathUnformatted: 
-  BankRefreshCooldown: 5
+  BankRefreshCooldown: 1
   ShowBankRefreshWindow: 1
   AutomaticEventLoading: 1
   BankLoadType: 0
@@ -631,7 +631,8 @@ MonoBehaviour:
   VirtualChannelSettings: []
   RealChannelSettings: []
   Plugins: []
-  MasterBanks: []
+  MasterBanks:
+  - Master
   Banks: []
   BanksToLoad: []
   LiveUpdatePort: 9264
@@ -645,21 +646,21 @@ MonoBehaviour:
   SharedLibraryUpdateStage: 0
   SharedLibraryTimeSinceStart: 0
   CurrentVersion: 131621
-  HideSetupWizard: 0
+  HideSetupWizard: 1
   LastEventReferenceScanVersion: 131621
   Platforms:
-  - {fileID: -5795202445536614366}
-  - {fileID: 438603116841898251}
-  - {fileID: -5577214103822598190}
-  - {fileID: 4368818485753673430}
-  - {fileID: -6013287779053623979}
-  - {fileID: -553852674464515607}
   - {fileID: -8886675445022193453}
+  - {fileID: -6013287779053623979}
+  - {fileID: -5795202445536614366}
   - {fileID: -5720717985670570111}
-  - {fileID: -2253086017769825287}
-  - {fileID: 6488240816510624951}
+  - {fileID: -5577214103822598190}
   - {fileID: -2348656526799927470}
+  - {fileID: -2253086017769825287}
+  - {fileID: -553852674464515607}
+  - {fileID: 438603116841898251}
   - {fileID: 2635588489993139288}
+  - {fileID: 4368818485753673430}
+  - {fileID: 6488240816510624951}
   MigratedPlatforms: 0500000000000000060000000a0000000800000009000000120000000c000000150000000b0000000200000001000000
 --- !u!114 &438603116841898251
 MonoBehaviour:

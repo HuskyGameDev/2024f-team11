@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{58a4a99f-93c4-4a6b-8fe8-0c0f7556115f}">
 		<property name="name">
-			<value>Drone</value>
+			<value>Amb_Drone_LP</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -100,6 +100,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{19211759-9266-4780-8e71-9673aa1b6b54}">
+		<property name="volume">
+			<value>-7.5</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
