@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 3448500072962420090}
   - component: {fileID: 9020255685447728609}
   - component: {fileID: 2536427030151724201}
-  - component: {fileID: 3009139654882656020}
+  - component: {fileID: 7483809604177976321}
   m_Layer: 0
   m_Name: Door01
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 83
@@ -109,7 +109,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 8161670898622400657, guid: 5b7de892548834e3f8c53671f6cf5080, type: 3}
---- !u!114 &3009139654882656020
+--- !u!114 &7483809604177976321
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,37 +118,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6124344966072441852}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3aca43c4bfab2f49a5653e715bb684a, type: 3}
+  m_Script: {fileID: 11500000, guid: b2202059c89cb954695296d0aca3d65c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds:
-  - name: Ambient Creaks
-    clip: {fileID: 8300000, guid: e5803986caaf9944eaa30f60f8a659c9, type: 3}
-    audioMixerGroup: {fileID: -7603243627122960909, guid: 017ec5afc4cbe7941929a193cf44c36e, type: 2}
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    playOnAwake: 0
-    spatialBlend: 1
-    source: {fileID: 0}
-  - name: Locked
-    clip: {fileID: 8300000, guid: bcacf51763e750848bf00aa3a5d9056f, type: 3}
-    audioMixerGroup: {fileID: -7603243627122960909, guid: 017ec5afc4cbe7941929a193cf44c36e, type: 2}
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    playOnAwake: 0
-    spatialBlend: 1
-    source: {fileID: 0}
-  - name: DoorOpen
-    clip: {fileID: 8300000, guid: 3ab3d2e7a93f73f4790ac2a23e2ac87e, type: 3}
-    audioMixerGroup: {fileID: -7603243627122960909, guid: 017ec5afc4cbe7941929a193cf44c36e, type: 2}
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    playOnAwake: 0
-    spatialBlend: 1
-    source: {fileID: 0}
+  startRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
 --- !u!1001 &3827398937831696749
 PrefabInstance:
   m_ObjectHideFlags: 0
