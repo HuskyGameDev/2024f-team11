@@ -16,8 +16,7 @@ public class Door : MonoBehaviour
 
     private void Start()
     {
-        startRotation = Quaternion.Euler(0f, (transform.rotation.y * Mathf.PI * Mathf.Rad2Deg), 0f);
-        transform.rotation = Quaternion.Euler(0f, (transform.rotation.y * Mathf.PI * Mathf.Rad2Deg) + -90f, 0f);
+        startRotation = Quaternion.Euler(0f, (transform.localRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f);
         doorOpen = AudioManager.Instance.CreateInstance(FMODEvents.Instance.doorOpen);
         doorClose = AudioManager.Instance.CreateInstance(FMODEvents.Instance.doorClose);
     }
@@ -65,7 +64,7 @@ public class Door : MonoBehaviour
         }
         else if (!isOpen && playerInteraction)
         {
-            transform.localRotation = Quaternion.Lerp(this.transform.localRotation, Quaternion.Euler(0f, -90f + (startRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f), timeCount * 0.1f);
+            transform.localRotation = Quaternion.Lerp(this.transform.localRotation, Quaternion.Euler(0f, 90f + (startRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f), timeCount * 0.1f);
             timeCount += Time.deltaTime;
             if (timeCount >= 1.0f || transform.localRotation == Quaternion.Euler(0f, -90f + (startRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f))
             {
