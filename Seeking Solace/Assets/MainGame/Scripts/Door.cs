@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FMOD.Studio;
 
 public class Door : MonoBehaviour
 {
@@ -9,69 +8,71 @@ public class Door : MonoBehaviour
     private bool isLocked = false;
     private KeyColor lockColor = KeyColor.red;
     public Quaternion startRotation;
-    private EventInstance doorOpen;
-    private EventInstance doorClose;
-    float timeCount = 0.0f;
-    bool playerInteraction = false;
 
     private void Start()
     {
-        startRotation = Quaternion.Euler(0f, (transform.localRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f);
-        doorOpen = AudioManager.Instance.CreateInstance(FMODEvents.Instance.doorOpen);
-        doorClose = AudioManager.Instance.CreateInstance(FMODEvents.Instance.doorClose);
+        startRotation = transform.rotation; //Set closed position to initial position (doors start closed)
     }
 
-    //Open or close the door in the correct direction
-    public void Toggle()
+    //Open or close the door in the correct direction (away from player)
+    public void Toggle(Transform player)
     {
+        //Player's position relative to the door (used to get correct opening direction)
+        Vector3 playerRelativePos = this.transform.InverseTransformPoint(player.position);
+
         //Get player and pickup script
         GameObject playerObject = GameObject.Find("Player");
         PickupDrop pickScript = playerObject.GetComponent<PickupDrop>();
         GameObject heldItem = pickScript.getPickedItem();
 
-        if (isLocked)
+        if (isOpen)
         {
-            if (heldItem.GetComponent<Key>() != null) //If held item is a key (has key component)
-            {
-                KeyColor keyColor = heldItem.GetComponent<Key>().GetColor();
-                if(keyColor == lockColor) //If keycolor matches door lock color
-                {
-                    isLocked = !isLocked;
-                    pickScript.ConsumeHeldItem();
-                    isOpen = !isOpen;
-                    //Play unlock sound and maybe some effect for key disappearing
-                }
-            }
+            //Close the door (reset rotation to match doorframe)
+            transform.rotation = startRotation;
+            isOpen = false;
         }
         else
         {
-            playerInteraction = true;
+            if (isLocked)
+            {
+                if (heldItem.GetComponent<Key>() != null) //If held item is a key (has key component)
+                {
+                    KeyColor keyColor = heldItem.GetComponent<Key>().GetColor();
+                    if(keyColor == lockColor) //If keycolor matches door lock color
+                    {
+                        isLocked = !isLocked;
+                        pickScript.ConsumeHeldItem();
+                        OpenDoor(playerRelativePos);
+                        //Play unlock sound and maybe some effect for key disappearing
+                    }
+                }
+                else
+                {
+                    //Play locked sound
+                    AudioManager.Instance.PlaySound(this.gameObject, "Locked");
+                }
+            }
+            else
+            {
+                AudioManager.Instance.PlaySound(this.gameObject, "DoorOpen");
+                OpenDoor(playerRelativePos);
+            }
         }
+
     }
 
-    private void Update()
+    private void OpenDoor(Vector3 playerRelativePos)
     {
-        if (isOpen && playerInteraction)
+        if (playerRelativePos.z <= 0)
         {
-            transform.localRotation = Quaternion.Lerp(this.transform.localRotation, Quaternion.Euler(0f, (startRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f), timeCount * 0.1f);
-            timeCount += Time.deltaTime;
-            if (timeCount >= 1.0f || transform.localRotation == Quaternion.Euler(0f, (startRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f))
-            {
-                isOpen = false;
-                playerInteraction = false;
-                timeCount = 0;
-            }
+            //Open clockwise
+            transform.Rotate(0, 90, 0, Space.Self);
         }
-        else if (!isOpen && playerInteraction)
+        else
         {
-            transform.localRotation = Quaternion.Lerp(this.transform.localRotation, Quaternion.Euler(0f, 90f + (startRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f), timeCount * 0.1f);
-            timeCount += Time.deltaTime;
-            if (timeCount >= 1.0f || transform.localRotation == Quaternion.Euler(0f, -90f + (startRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f))
-            {
-                isOpen = true;
-                playerInteraction = false;
-                timeCount = 0;
-            }
+            //Open counterclockwise
+            transform.Rotate(0, -90, 0, Space.Self);
         }
+        isOpen = true;
     }
 }

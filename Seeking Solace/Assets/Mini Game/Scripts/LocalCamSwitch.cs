@@ -22,7 +22,7 @@ public class LocalCamSwitch : MonoBehaviour
         if(inRange) {
             camManager.switchCamera(newCam);
         } else{
-            camManager.resetCamera(newCam);
+            camManager.resetCamera();
         }
     }
 }
