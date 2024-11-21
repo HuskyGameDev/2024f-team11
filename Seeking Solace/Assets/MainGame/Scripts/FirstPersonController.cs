@@ -31,6 +31,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMOD.Studio;
 
 #if UNITY_EDITOR // only required if using the Menu Item function at the end of this script
 using UnityEditor;
@@ -39,6 +40,8 @@ using UnityEditor;
 [RequireComponent(typeof(CharacterController))]
 public class BasicFPCC : MonoBehaviour
 {
+    private EventInstance playerFootsteps;
+
     [Header("Layer Mask")]
     [Tooltip("Layer Mask for sphere/raycasts. Assign the Player object to a Layer, then Ignore that layer here.")]
     public LayerMask castingMask;                              // Layer mask for casts. You'll want to ignore the player.
@@ -157,6 +160,7 @@ public class BasicFPCC : MonoBehaviour
         ProcessInputs();
         ProcessLook();
         ProcessMovement();
+        ProcessAudio();
     }
 
     void Initialize()
@@ -173,6 +177,8 @@ public class BasicFPCC : MonoBehaviour
         cameraStartY = cameraTx.localPosition.y;
         groundOffsetY = groundCheckY;
         ceilingOffsetY = ceilingCheckY;
+
+        playerFootsteps = AudioManager.Instance.CreateInstance(FMODEvents.Instance.playerFootsteps);
 
         RefreshCursor();
     }
@@ -292,7 +298,6 @@ public class BasicFPCC : MonoBehaviour
         }
         else // - Player Move Input -
         {
-            AudioManager.Instance.PlaySound(this.gameObject, "PC_Footsteps-1");
             move = (playerTx.right * inputMoveX) + (playerTx.forward * inputMoveY);
 
             if (move.magnitude > 1f)
@@ -431,6 +436,23 @@ public class BasicFPCC : MonoBehaviour
             Debug.DrawRay(calc, fauxGravity, Color.green);
         }
 #endif
+    }
+
+    void ProcessAudio()
+    {
+        if ((controller.velocity.x < -0.01f || controller.velocity.x > 0.01f || controller.velocity.z < -0.01f || controller.velocity.z > 0.01f) && isGrounded)
+        {
+            PLAYBACK_STATE playbackState;
+            playerFootsteps.getPlaybackState(out playbackState);
+            if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                playerFootsteps.start();
+            }
+        }
+        else
+        {
+            playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+        }
     }
 
     // lock/hide or show/unlock cursor

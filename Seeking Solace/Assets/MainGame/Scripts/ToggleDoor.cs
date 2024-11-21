@@ -19,14 +19,12 @@ public class ToggleDoor : MonoBehaviour
     void TryOpenDoor()
     {
         RaycastHit hit;
-        Debug.Log("1");
+
         if(Physics.Raycast(camera.position, camera.forward, out hit, interactRange))
         {
-            Debug.Log("2");
             if(hit.collider.CompareTag("Door"))
             {
-                hit.collider.GetComponent<Door>().Toggle(this.transform);
-                Debug.Log("3");
+                hit.collider.GetComponent<Door>().Toggle();
             }
         }
     }
