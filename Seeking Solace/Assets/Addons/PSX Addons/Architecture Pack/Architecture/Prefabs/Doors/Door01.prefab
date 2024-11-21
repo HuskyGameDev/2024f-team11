@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2202059c89cb954695296d0aca3d65c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startRotation: {x: 0, y: 0, z: 0, w: 0}
+  startRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
 --- !u!1001 &3827398937831696749
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -448,8 +448,6 @@ public class BasicFPCC : MonoBehaviour
             {
                 playerFootsteps.start();
             }
-
-            Debug.Log("I'm Walking Here");
         }
         else
         {
