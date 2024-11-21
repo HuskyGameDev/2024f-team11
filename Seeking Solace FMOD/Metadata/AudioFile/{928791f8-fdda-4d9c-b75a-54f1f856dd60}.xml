@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{928791f8-fdda-4d9c-b75a-54f1f856dd60}">
+		<property name="assetPath">
+			<value>SFX_Footsteps _Reverb_Lower-2.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.72999999999999998</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4b6fb92c-9808-4b2d-8364-21c5e07345e4}</destination>
+		</relationship>
+	</object>
+</objects>

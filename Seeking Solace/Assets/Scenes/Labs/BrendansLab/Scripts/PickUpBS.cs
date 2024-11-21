@@ -50,7 +50,6 @@ public class PickUpBS : MonoBehaviour
             // Check if the object is "pickable" by having a tag or specific layer
             if (hit.collider.CompareTag("Pickable"))
             {
-                AudioManager.Instance.PlaySound(hit.collider.gameObject, "BSPickUp");
                 pickedUpItem = hit.collider.gameObject;
                 itemRb = pickedUpItem.GetComponent<Rigidbody>();
 

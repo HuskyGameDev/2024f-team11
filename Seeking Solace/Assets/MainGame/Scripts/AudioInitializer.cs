@@ -16,7 +16,6 @@ public class AudioInitializer : MonoBehaviour
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
             if (s.audioMixerGroup) { s.source.outputAudioMixerGroup = s.audioMixerGroup; }
-            else s.source.outputAudioMixerGroup = AudioManager.Instance.getMasterMixer().FindMatchingGroups("SFX")[0];
 
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
