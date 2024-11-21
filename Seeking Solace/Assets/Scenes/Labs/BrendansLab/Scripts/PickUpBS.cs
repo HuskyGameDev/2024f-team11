@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PickUpBS : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PickUpBS : MonoBehaviour
     private GameObject pickedUpItem;   // The currently picked up item
     private Rigidbody itemRb;          // Rigidbody of the item
     float timeCount = 0.0f;
+    [SerializeField] GameObject playText;
 
     void Update()
     {
@@ -33,6 +35,11 @@ public class PickUpBS : MonoBehaviour
             pickedUpItem.transform.position = Vector3.Lerp(pickedUpItem.transform.position, itemHoldPosition.position, timeCount);
             pickedUpItem.transform.localRotation = Quaternion.Lerp(pickedUpItem.transform.localRotation, Quaternion.Euler(60f, 180f, 0f), timeCount);
             timeCount += Time.deltaTime;
+
+            //Key press ui
+            playText.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.R))
+                SceneManager.LoadScene("Mini game");
         }
         else
         {
@@ -47,6 +54,7 @@ public class PickUpBS : MonoBehaviour
         // Cast a ray from the player's position to detect objects in front of them
         if (Physics.Raycast(camera.position, camera.forward, out hit, pickupRange))
         {
+            Debug.Log(hit.collider);
             // Check if the object is "pickable" by having a tag or specific layer
             if (hit.collider.CompareTag("Pickable"))
             {
