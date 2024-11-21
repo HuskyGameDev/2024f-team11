@@ -6,7 +6,6 @@ using Cinemachine;
 public class CamSwitch : MonoBehaviour
 {
     public CinemachineFreeLook startCam;
-    private CinemachineVirtualCamera tempCam;
 
     // Start is called before the first frame update
     void Start()
@@ -16,12 +15,11 @@ public class CamSwitch : MonoBehaviour
 
    public void switchCamera(CinemachineVirtualCamera cam){
     startCam.Priority = 10;
-    tempCam = cam;
-    tempCam.Priority = 20;
+    cam.Priority = 20;
    }
 
-   public void resetCamera(){
-    tempCam.Priority = 10;
+   public void resetCamera(CinemachineVirtualCamera cam){
+    cam.Priority = 10;
     startCam.Priority = 20;
    }
 }
