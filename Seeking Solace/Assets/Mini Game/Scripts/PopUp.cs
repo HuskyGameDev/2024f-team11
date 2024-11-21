@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Win : MonoBehaviour
 {
     public GameObject popupUI; // Assign your UI Panel here in the Inspector
+    private bool dead = false;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,8 +19,15 @@ public class Win : MonoBehaviour
             if (popupUI != null)
             {
                 popupUI.SetActive(true);
+                dead = true;
             }
         }
+    }
+
+    private void Update()
+    {
+        if (dead && Input.GetKeyDown(KeyCode.R))
+            SceneManager.LoadScene("Mini game");
     }
 }
 

@@ -121,7 +121,7 @@ MonoBehaviour:
   Path: ../Seeking Solace FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638677268222374650
+  lastModified: 638677383127098905
   FileSizes:
   - Name: Desktop
     Value: 1058
@@ -208,7 +208,7 @@ MonoBehaviour:
   - {fileID: 7974404108740766386}
   StringsBanks:
   - {fileID: -4763435124565519512}
-  cacheTime: 638677268222374650
+  cacheTime: 638677383127098905
   cacheVersion: 131621
 --- !u!114 &7242915553509418245
 MonoBehaviour:
@@ -276,7 +276,7 @@ MonoBehaviour:
   Path: ../Seeking Solace FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638677268222364648
+  lastModified: 638677383126999854
   FileSizes:
   - Name: Desktop
     Value: 1382912
