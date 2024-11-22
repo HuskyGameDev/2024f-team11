@@ -151,7 +151,7 @@ public class DadAI : MonoBehaviour
 
     private IEnumerator schedule()  //Wander to a random spot in the room every 5-10 seconds, then change rooms every minute
     {
-        float loopTime = 60;
+        float loopTime = 30;
         float startTime = Time.time;
 
         while (startTime + loopTime > Time.time)
@@ -248,6 +248,7 @@ public class DadAI : MonoBehaviour
             if (NavMesh.SamplePosition(randomPoint, out hit, Agent.height * 2, NavMesh.AllAreas))
             {
                 areaMask = hit.mask;
+                Debug.Log("Hit mask " + hit.mask);
                 return;
             }
         }
@@ -255,6 +256,27 @@ public class DadAI : MonoBehaviour
 
     private Vector3 getRoomCenter()
     {
-        return FindObjectOfType<HouseNavManager>().getRoomCenter(areaMask);
+        Vector3 output = FindObjectOfType<HouseNavManager>().getRoomCenter(areaMask);
+        return output;
+//        return FindObjectOfType<HouseNavManager>().getRoomCenter(areaMask);
+    }
+
+    private IEnumerator tempOpenDoor(GameObject door)
+    {
+        door.SendMessage("Toggle");
+        door.GetComponent<MeshCollider>().enabled = false;
+
+        yield return new WaitForSeconds(1);
+
+        door.GetComponent<MeshCollider>().enabled = true;
+        door.SendMessage("Toggle");
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Door"))
+        {
+            StartCoroutine(tempOpenDoor(collision.gameObject));
+        }
     }
 }

@@ -33,7 +33,7 @@ public class AudioInitializer : MonoBehaviour
 
     public Sound RetrieveSound(string name)
     {
-        Debug.Log(Array.Find(sounds, sound => sound.name == name).name);
+        //Debug.Log(Array.Find(sounds, sound => sound.name == name).name);
         return Array.Find(sounds, sound => sound.name == name);
     }
 }

@@ -10,7 +10,7 @@ public class ToggleDoor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T)) //Press 'T' to toggle doors}
+        if (Input.GetKeyDown(KeyCode.E)) //Press 'E' to toggle doors}
         {
             TryOpenDoor();
         }
