@@ -8,12 +8,26 @@ public class ItemSpawner : MonoBehaviour
     // Hardcoded spawn position
     public Vector3 spawnPosition = new Vector3(0, 1, 0);
 
+    // Spawn position array
+    public GameObject[] spawnLocations;
+
     // Optional: Set spawn rotation
     public Quaternion spawnRotation = Quaternion.identity;
 
+    // Spawn location tag
+    public string spawnTag;
+
     void Start()
     {
-        // Spawn the item at the hardcoded position
+        // Spawn the item at a randomly selected spawn location
+        spawnLocations = GameObject.FindGameObjectsWithTag(spawnTag);
+        if(spawnLocations.Length < 1) {
+            Debug.LogError("No spawn locations found.");
+            return;
+        }
+        else{
+            spawnPosition = spawnLocations[Random.Range(0, spawnLocations.Length)].transform.position;
+        }
         SpawnItem();
     }
 
