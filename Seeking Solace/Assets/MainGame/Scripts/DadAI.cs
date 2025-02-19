@@ -30,7 +30,6 @@ public class DadAI : MonoBehaviour
     {
         DadAlert -= goToAlert;
     }
-
     private void Start()
     {
         //rigidbody = GetComponent<Rigidbody>();
@@ -45,7 +44,6 @@ public class DadAI : MonoBehaviour
         activeSchedule = schedule();
         StartCoroutine(activeSchedule);
     }
-
     private void updateRays()
     {
         Vector3 forward = Vector3.forward;
@@ -131,6 +129,16 @@ public class DadAI : MonoBehaviour
         if (Input.GetKeyDown("e")) goToAlert(FindObjectOfType<CharacterController>().transform.position);
 
         //Debug.Log(Agent.destination + ", " + Vector3.Distance(transform.position, Agent.destination));
+    }
+
+    public void tpFloor2()
+    {
+        //Animation only makes it look like he's climbing, so this would teleport him up once his animation is done
+        gameObject.transform.position = gameObject.transform.position + new Vector3(0, 6.2f, 4);
+    }
+    public void tpFloor1()
+    {
+        gameObject.transform.position = gameObject.transform.position + new Vector3(0, -6, -4);
     }
 
     private void Wander()   //Pick a random point in the current room and go to it
