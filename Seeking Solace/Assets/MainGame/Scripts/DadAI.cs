@@ -8,41 +8,66 @@ using Random = UnityEngine.Random;
 public class DadAI : MonoBehaviour
 {
     #region Setup
+
     private enum Mode { Wandering, Adventuring, Alerted };
 
+    #region Variables
     private Mode behaviorMode;
     private Ray[] vision;
     private NavMeshAgent Agent;
     private float timeInSpotlight;
     private IEnumerator activeSchedule;
+    private Animator animator;
+    private int currFloor;
+    private Vector3 currRoom;
+
+    private int aggression;
 
     private int areaMask = 0;
 
     private Vector3 currTarget = Vector3.zero;
+    #endregion
 
     public static event Action<Vector3> DadAlert;
 
     private void OnEnable()
     {
         DadAlert += goToAlert;
+        GameManager.nextNight += newNight;
     }
     private void OnDisable()
     {
         DadAlert -= goToAlert;
+        GameManager.nextNight -= newNight;
     }
     private void Start()
     {
         //rigidbody = GetComponent<Rigidbody>();
         Agent = GetComponent<NavMeshAgent>();
+        animator = gameObject.GetComponent<Animator>();
 
         behaviorMode = Mode.Wandering;
 
         vision = new Ray[9];
-        areaMask = -1;
-        pickCurrentRoom();
+        areaMask = 1;
+        currFloor = 1;
+
+
 
         activeSchedule = schedule();
         StartCoroutine(activeSchedule);
+    }
+    private void newNight(int nightNum)
+    {
+        Debug.Log("Night " + nightNum);
+        if (nightNum == 0)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+        else
+            aggression = 1 * nightNum;
+        Agent.speed = Agent.speed * (Mathf.Log10(aggression) * 3 + 1);
     }
     private void updateRays()
     {
@@ -128,17 +153,23 @@ public class DadAI : MonoBehaviour
 
         if (Input.GetKeyDown("e")) goToAlert(FindObjectOfType<CharacterController>().transform.position);
 
+        animator.SetBool("Walking", Agent.isStopped);
+
         //Debug.Log(Agent.destination + ", " + Vector3.Distance(transform.position, Agent.destination));
     }
 
     public void tpFloor2()
     {
         //Animation only makes it look like he's climbing, so this would teleport him up once his animation is done
-        gameObject.transform.position = gameObject.transform.position + new Vector3(0, 6.2f, 4);
+        gameObject.transform.position = FindObjectOfType<HouseNavManager>().getNearbyRooms(2).transform.GetChild(7).position;
+        Agent.areaMask = 1 << 3;
+        currFloor = 2;
     }
     public void tpFloor1()
     {
-        gameObject.transform.position = gameObject.transform.position + new Vector3(0, -6, -4);
+        gameObject.transform.position = FindObjectOfType<HouseNavManager>().getNearbyRooms(1).transform.GetChild(7).position;
+        Agent.areaMask = 1 << 0;
+        currFloor = 1;
     }
 
     private void Wander()   //Pick a random point in the current room and go to it
@@ -150,7 +181,7 @@ public class DadAI : MonoBehaviour
 
     private void Adventure()    //Pick a random point in a nearby room and go to it
     {
-        pickNearbyRoom();
+        currRoom = FindObjectOfType<HouseNavManager>().getRandomRoomCenter(currFloor);
 
         Vector3 destination = randomNavmeshPoint();
         if (destination != Vector3.zero)
@@ -159,7 +190,11 @@ public class DadAI : MonoBehaviour
 
     private IEnumerator schedule()  //Wander to a random spot in the room every 5-10 seconds, then change rooms every minute
     {
-        float loopTime = 30;
+        float loopTime;
+        if (aggression != 0)
+            loopTime = 30f / aggression;
+        else
+            loopTime = 30;
         float startTime = Time.time;
 
         while (startTime + loopTime > Time.time)
@@ -181,6 +216,7 @@ public class DadAI : MonoBehaviour
 
     private void goToAlert(Vector3 alertLocation)
     {
+        animator.SetBool("Chasing", true);
         NavMeshHit hit;
         Debug.Log(alertLocation + ", " + NavMesh.SamplePosition(alertLocation, out hit, Agent.height * 2, NavMesh.AllAreas));
         //Stop Schedule
@@ -198,11 +234,15 @@ public class DadAI : MonoBehaviour
             Debug.Log("Angry noises >:(");
         }
         Agent.speed /= 2;
+        animator.SetBool("Chasing", false);
 
         //Deal with the alert
 
         //Resume schedule
-        pickCurrentRoom();
+        if (currFloor == 2)
+            areaMask = 2;
+        else
+            areaMask = 1;
         StartCoroutine(activeSchedule);
     }
 
@@ -234,39 +274,9 @@ public class DadAI : MonoBehaviour
         return Vector3.zero;
     }
 
-    private int pickNearbyRoom()    //Sets areaMask to a nearby room
-    {
-        List<int> nearbyRooms = FindObjectOfType<HouseNavManager>().getNearbyRooms((int) Mathf.Log(areaMask, 2) - 3);
-
-        int choice = nearbyRooms[Random.Range(0, nearbyRooms.Count)] + 3;
-        areaMask = 1 << choice;
-        Debug.Log("Choice: " + choice + ", AreaMask = " + areaMask);
-
-        return choice;
-    }
-
-    private void pickCurrentRoom()
-    {
-        Vector3 randomPoint;
-        NavMeshHit hit;
-
-        for (int i = 0; i < 30; i++)
-        {
-            randomPoint = transform.position + Random.insideUnitSphere * Random.Range(0, 10f);
-            if (NavMesh.SamplePosition(randomPoint, out hit, Agent.height * 2, NavMesh.AllAreas))
-            {
-                areaMask = hit.mask;
-                Debug.Log("Hit mask " + hit.mask);
-                return;
-            }
-        }
-    }
-
     private Vector3 getRoomCenter()
     {
-        Vector3 output = FindObjectOfType<HouseNavManager>().getRoomCenter(areaMask);
-        return output;
-//        return FindObjectOfType<HouseNavManager>().getRoomCenter(areaMask);
+        return currRoom;
     }
 
     private IEnumerator tempOpenDoor(GameObject door)

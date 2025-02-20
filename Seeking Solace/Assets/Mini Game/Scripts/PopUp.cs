@@ -20,6 +20,7 @@ public class Win : MonoBehaviour
             {
                 popupUI.SetActive(true);
                 dead = true;
+                SceneManager.LoadScene("House");
             }
         }
     }
