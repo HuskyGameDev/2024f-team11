@@ -78,6 +78,13 @@ public class Movement : MonoBehaviour
                     timeWaited = 0f;
                 } 
             }
+            if (transform.rotation.x == 0){ 
+                transform.Rotate(75f, 0.0f, 0.0f);
+            }
+        } else {
+            if (transform.rotation.x == 75f) {
+                transform.Rotate(-75f, 0.0f, 0.0f);
+            }
         }
 
         if(waiting){
