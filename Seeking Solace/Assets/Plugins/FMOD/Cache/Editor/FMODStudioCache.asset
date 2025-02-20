@@ -105,7 +105,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1012
+  Length: 2000
 --- !u!114 &-4763435124565519512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,10 +121,10 @@ MonoBehaviour:
   Path: ../Seeking Solace FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638755993967418377
+  lastModified: 638678162734582051
   FileSizes:
   - Name: Desktop
-    Value: 1114
+    Value: 1058
   Exists: 1
 --- !u!114 &-3052530172289116142
 MonoBehaviour:
@@ -152,7 +152,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 780
+  Length: 2000
 --- !u!114 &-684573006461966737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,42 +202,14 @@ MonoBehaviour:
   - {fileID: 7659435915121165811}
   - {fileID: -6260282124431804610}
   - {fileID: -7823873022174210548}
-  - {fileID: 6803128740234096849}
   EditorParameters:
   - {fileID: -7153756438397733898}
   MasterBanks:
   - {fileID: 7974404108740766386}
   StringsBanks:
   - {fileID: -4763435124565519512}
-  cacheTime: 638755993967418377
+  cacheTime: 638678162734582051
   cacheVersion: 131621
---- !u!114 &6803128740234096849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX_MonsterGrowls
-  m_EditorClassIdentifier: 
-  Path: event:/SFX_MonsterGrowls
-  Guid:
-    Data1: 1109229290
-    Data2: 1329205399
-    Data3: -322816865
-    Data4: 819646814
-  Banks:
-  - {fileID: 7974404108740766386}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 7336
 --- !u!114 &7242915553509418245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,8 +276,8 @@ MonoBehaviour:
   Path: ../Seeking Solace FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638755993967408375
+  lastModified: 638678162734572040
   FileSizes:
   - Name: Desktop
-    Value: 1582656
+    Value: 1382912
   Exists: 1

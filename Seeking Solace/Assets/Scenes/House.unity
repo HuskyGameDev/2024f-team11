@@ -18130,6 +18130,22 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!20 &468954454 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3031113763468160169, guid: 2c0a66788e588854a84d1b750a85f4ba, type: 3}
+  m_PrefabInstance: {fileID: 2127299205}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &468954459 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 645413133251943121, guid: 2c0a66788e588854a84d1b750a85f4ba, type: 3}
+  m_PrefabInstance: {fileID: 2127299205}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 433faa8b758afed4f9295b193c697276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &469885754
 GameObject:
   m_ObjectHideFlags: 0
@@ -54999,6 +55015,11 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!4 &1339952545 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ebf3a483274f4f34e930d2108287d3d8, type: 3}
+  m_PrefabInstance: {fileID: 1523824546}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1341720034 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3682955004966784778, guid: adec9640f31004b34a9f9d8f1d9b423d, type: 3}
@@ -80069,6 +80090,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursor: {fileID: 1523680809}
+--- !u!1 &2107903381 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 61383211072336003, guid: 2c0a66788e588854a84d1b750a85f4ba, type: 3}
+  m_PrefabInstance: {fileID: 2127299205}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2107903382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107903381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d70dda3e41137b04bbc84d7beddb7694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 468954459}
+  camera: {fileID: 468954454}
+  startingFov: 60
+  maxFov: 90
+  zoomProximity: 8
+  monsterTransform: {fileID: 1339952545}
+--- !u!114 &2107903391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107903381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03eef1b02c157574fb45a033860a9d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intensity: 3
 --- !u!4 &2111875526 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8764298989672962221, guid: e535cddc6368a5b4b94b7f09fc7c05a1, type: 3}
@@ -81237,7 +81294,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 61383211072336003, guid: 2c0a66788e588854a84d1b750a85f4ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2107903382}
+    - targetCorrespondingSourceObject: {fileID: 61383211072336003, guid: 2c0a66788e588854a84d1b750a85f4ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2107903391}
   m_SourcePrefab: {fileID: 100100000, guid: 2c0a66788e588854a84d1b750a85f4ba, type: 3}
 --- !u!1001 &2131673786
 PrefabInstance:

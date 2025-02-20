@@ -24,11 +24,11 @@ public class ProximityCamEffects : MonoBehaviour
     void Update()
     {
         if (Vector3.Distance(transform.position, monsterTransform.position) < zoomProximity) {
-            camera.fieldOfView = Mathf.Clamp(camera.fieldOfView * (1 + (maxFov - camera.fieldOfView) * 0.0001f), startingFov, maxFov);
+            camera.fieldOfView = Mathf.Clamp(camera.fieldOfView * (1 + (maxFov - camera.fieldOfView) * 0.0005f), startingFov, maxFov);
             effect._PixelationFactor = Mathf.Clamp(effect._PixelationFactor - 0.001f, 0.2f, 0.3f);
         }
         else {
-            camera.fieldOfView = Mathf.Clamp(camera.fieldOfView * (1 - (camera.fieldOfView - startingFov) * 0.00005f), startingFov, maxFov);
+            camera.fieldOfView = Mathf.Clamp(camera.fieldOfView * (1 - (camera.fieldOfView - startingFov) * 0.0005f), startingFov, maxFov);
             effect._PixelationFactor = Mathf.Clamp(effect._PixelationFactor + 0.001f, 0.2f, 0.3f); ;
         }
     }
