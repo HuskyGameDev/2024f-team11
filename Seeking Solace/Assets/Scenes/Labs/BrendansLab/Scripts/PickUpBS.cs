@@ -11,7 +11,6 @@ public class PickUpBS : MonoBehaviour
     private GameObject pickedUpItem;   // The currently picked up item
     private Rigidbody itemRb;          // Rigidbody of the item
     float timeCount = 0.0f;
-    [SerializeField] GameObject playText;
 
     void Update()
     {
@@ -36,10 +35,8 @@ public class PickUpBS : MonoBehaviour
             pickedUpItem.transform.localRotation = Quaternion.Lerp(pickedUpItem.transform.localRotation, Quaternion.Euler(60f, 180f, 0f), timeCount);
             timeCount += Time.deltaTime;
 
-            //Key press ui
-            playText.SetActive(true);
             if (Input.GetKeyDown(KeyCode.R))
-                SceneManager.LoadScene("Mini game");
+                SceneManager.LoadScene(1);
         }
         else
         {

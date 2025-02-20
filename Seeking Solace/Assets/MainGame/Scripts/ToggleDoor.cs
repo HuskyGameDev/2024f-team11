@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,9 @@ using UnityEngine;
 public class ToggleDoor : MonoBehaviour
 {
     public Transform camera; //Player camera reference
-    public float interactRange = 6f; //How far away you can open doors from
+    public float interactRange = 3f; //How far away you can open doors from
+
+    public static event Action OnHoverDoor;
 
     // Update is called once per frame
     void Update()
@@ -24,6 +27,7 @@ public class ToggleDoor : MonoBehaviour
         {
             if(hit.collider.CompareTag("Door"))
             {
+                OnHoverDoor?.Invoke();
                 hit.collider.GetComponent<Door>().Toggle();
             }
         }

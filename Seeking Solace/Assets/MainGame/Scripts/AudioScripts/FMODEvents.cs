@@ -13,6 +13,9 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference doorOpen { get; private set; }
     [field: SerializeField] public EventReference doorClose { get; private set; }
 
+    [field: Header("Ambience SFX")]
+    [field: SerializeField] public EventReference droneAmbience { get; private set; }
+
     public static FMODEvents Instance { get; private set; }
 
     private void Awake()

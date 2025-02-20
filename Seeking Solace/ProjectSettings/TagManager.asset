@@ -7,11 +7,12 @@ TagManager:
   - Pickable
   - Door
   - BS Spawn
+  - Hidable
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Interactable
   - Water
   - UI
   - Ground

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9020255685447728609}
   - component: {fileID: 2536427030151724201}
   - component: {fileID: 7483809604177976321}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Door01
   m_TagString: Door
   m_Icon: {fileID: 0}
@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  rotateClockwise: 0
 --- !u!1001 &3827398937831696749
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,6 +132,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 368764479929935302}
     m_Modifications:
+    - target: {fileID: 130729027860715819, guid: 1d2ffeee32ba148668228940cbf6f36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2354974358103176870, guid: 1d2ffeee32ba148668228940cbf6f36d, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -178,6 +184,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoorHandle_Base
       objectReference: {fileID: 0}
+    - target: {fileID: 5131620146837642024, guid: 1d2ffeee32ba148668228940cbf6f36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -196,6 +206,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 368764479929935302}
     m_Modifications:
+    - target: {fileID: 130729027860715819, guid: 1d2ffeee32ba148668228940cbf6f36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2354974358103176870, guid: 1d2ffeee32ba148668228940cbf6f36d, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -247,6 +261,10 @@ PrefabInstance:
     - target: {fileID: 5131620146837642024, guid: 1d2ffeee32ba148668228940cbf6f36d, type: 3}
       propertyPath: m_Name
       value: DoorHandle_Base (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131620146837642024, guid: 1d2ffeee32ba148668228940cbf6f36d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

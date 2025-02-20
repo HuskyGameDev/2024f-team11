@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7274030598499188381}
   - component: {fileID: 1904829534269839534}
   - component: {fileID: 4573412074544011715}
+  - component: {fileID: 4922245609342744305}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -176,6 +177,7 @@ MonoBehaviour:
   camera: {fileID: 2921394693691207142}
   pickupRange: 3
   itemHoldPosition: {fileID: 1306977843225779691}
+  playText: {fileID: 0}
 --- !u!114 &4573412074544011715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +188,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8af364ab08aa53f4ba8c26786dfea48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4922245609342744305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61383211072336003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 994af87512c202a429a0ec0e2d993518, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5641762976844641128

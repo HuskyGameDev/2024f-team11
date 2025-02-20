@@ -101,7 +101,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{19211759-9266-4780-8e71-9673aa1b6b54}">
 		<property name="volume">
-			<value>-19.5</value>
+			<value>-16.5</value>
 		</property>
 		<property name="name">
 			<value>Audio 1</value>
@@ -132,7 +132,9 @@
 	</object>
 	<object class="MixerBusEffectChain" id="{01df6015-41b7-4be9-b74a-e1d96b08e959}">
 		<relationship name="effects">
+			<destination>{07f24cea-0046-4104-9526-85fce16f2512}</destination>
 			<destination>{1b661df9-6b81-4572-8360-94d8d96cb24b}</destination>
+			<destination>{219b8da7-cdf8-4291-b660-cb07325b622b}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{c3c175e2-743a-4849-99b6-1b5ed7342cf4}" />
@@ -143,6 +145,16 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{c83b9caa-8245-47eb-985a-7c36a7806759}" />
+	<object class="DistortionEffect" id="{07f24cea-0046-4104-9526-85fce16f2512}">
+		<property name="level">
+			<value>0</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{1b661df9-6b81-4572-8360-94d8d96cb24b}" />
+	<object class="PitchShifterEffect" id="{219b8da7-cdf8-4291-b660-cb07325b622b}">
+		<property name="overlap">
+			<value>5.20000029</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{00e5b3ed-3663-4749-a35e-9e2d6e8be3bb}" />
 </objects>

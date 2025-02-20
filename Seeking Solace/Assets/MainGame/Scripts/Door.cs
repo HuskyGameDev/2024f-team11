@@ -9,14 +9,20 @@ public class Door : MonoBehaviour
     private bool isLocked = false;
     private KeyColor lockColor = KeyColor.red;
     public Quaternion startRotation;
+    public Quaternion targetRotation;
+    public bool rotateClockwise = false;
     private EventInstance doorOpen;
     private EventInstance doorClose;
+    float doorOpenTime = 5.0f;
     float timeCount = 0.0f;
+    float initialTime = 0.0f;
     bool playerInteraction = false;
+    bool isMoving = false;
 
     private void Start()
     {
-        startRotation = Quaternion.Euler(0f, (transform.localRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f);
+        transform.localRotation = startRotation;
+        targetRotation = rotateClockwise ? Quaternion.Euler(0f, 90f + startRotation.eulerAngles.y, 0f) : Quaternion.Euler(0f, -90f + startRotation.eulerAngles.y, 0f);
         doorOpen = AudioManager.Instance.CreateInstance(FMODEvents.Instance.doorOpen);
         doorClose = AudioManager.Instance.CreateInstance(FMODEvents.Instance.doorClose);
     }
@@ -51,26 +57,38 @@ public class Door : MonoBehaviour
 
     private void Update()
     {
-        if (isOpen && playerInteraction)
+        if (playerInteraction)
         {
-            transform.localRotation = Quaternion.Lerp(this.transform.localRotation, Quaternion.Euler(0f, (startRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f), timeCount * 0.1f);
-            timeCount += Time.deltaTime;
-            if (timeCount >= 1.0f || transform.localRotation == Quaternion.Euler(0f, (startRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f))
-            {
-                isOpen = false;
-                playerInteraction = false;
-                timeCount = 0;
-            }
+            playerInteraction = false; // Consume input immediately
+            isOpen = !isOpen; // Toggle door state
+            isMoving = true; // Start moving
+            timeCount = 0.0f; // Reset interpolation
         }
-        else if (!isOpen && playerInteraction)
+
+        if (isMoving)
         {
-            transform.localRotation = Quaternion.Lerp(this.transform.localRotation, Quaternion.Euler(0f, 90f + (startRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f), timeCount * 0.1f);
-            timeCount += Time.deltaTime;
-            if (timeCount >= 1.0f || transform.localRotation == Quaternion.Euler(0f, -90f + (startRotation.y * Mathf.PI * Mathf.Rad2Deg), 0f))
+            if (!isOpen && !AudioManager.Instance.IsPlaying(doorClose))
             {
-                isOpen = true;
-                playerInteraction = false;
-                timeCount = 0;
+                doorClose.start();
+                doorOpen.stop(STOP_MODE.ALLOWFADEOUT);
+            }
+            else if (isOpen && !AudioManager.Instance.IsPlaying(doorOpen))
+            {
+                doorOpen.start();
+                doorClose.stop(STOP_MODE.ALLOWFADEOUT);
+            }
+            timeCount += Time.deltaTime;
+            initialTime += Time.deltaTime;
+            timeCount = Mathf.Clamp01(timeCount); // Ensure value is between 0 and 1
+            Quaternion newRotation = isOpen ? targetRotation : startRotation;
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, newRotation, timeCount / 4.5f);
+
+            // Check if the door has sufficiently rotated
+            if (transform.localRotation == newRotation)
+            {
+                transform.localRotation = newRotation; // Snap to final position
+                isMoving = false; // Stop movement
+                initialTime = 0.0f;
             }
         }
     }
