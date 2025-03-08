@@ -8,8 +8,14 @@ using FMOD.Studio;
 
 public class AudioManager : MonoBehaviour
 {
+    private EventInstance mainMusic;
+    private EventInstance GUIButtonPress;
     private List<EventInstance> eventInstances;
     private List<StudioEventEmitter> eventEmitters;
+    FMOD.Studio.Bus masterBus;
+    FMOD.Studio.Bus sfxBus;
+    FMOD.Studio.Bus musicBus;
+    FMOD.Studio.Bus ambienceBus;
 
     public static AudioManager Instance { get; private set; }
 
@@ -26,6 +32,34 @@ public class AudioManager : MonoBehaviour
 
         eventInstances = new List<EventInstance>();
         eventEmitters = new List<StudioEventEmitter>();
+
+        masterBus = FMODUnity.RuntimeManager.GetBus("bus:/");
+        sfxBus = FMODUnity.RuntimeManager.GetBus("bus:/SFX");
+        musicBus = FMODUnity.RuntimeManager.GetBus("bus:/Music");
+        ambienceBus = FMODUnity.RuntimeManager.GetBus("bus:/Ambience");
+
+        mainMusic = AudioManager.Instance.CreateInstance(FMODEvents.Instance.mainMusic);
+        GUIButtonPress = AudioManager.Instance.CreateInstance(FMODEvents.Instance.GUIButtonPress);
+        mainMusic.start();
+
+    }
+
+    private void OnEnable()
+    {
+        GUIManager.OnMasterSliderChanged += UpdateMasterVolume;
+        GUIManager.OnMusicSliderChanged += UpdateMusicVolume;
+        GUIManager.OnAmbienceSliderChanged += UpdateAmbienceVolume;
+        GUIManager.OnSFXSliderChanged += UpdateSFXVolume;
+        GUIManager.OnButtonPressed += PlayButtonPressedSound;
+    }
+
+    private void OnDisable()
+    {
+        GUIManager.OnMasterSliderChanged -= UpdateMasterVolume;
+        GUIManager.OnMusicSliderChanged -= UpdateMusicVolume;
+        GUIManager.OnAmbienceSliderChanged -= UpdateAmbienceVolume;
+        GUIManager.OnSFXSliderChanged -= UpdateSFXVolume;
+        GUIManager.OnButtonPressed -= PlayButtonPressedSound;
     }
 
     public void PlayOneShot(EventReference sound, Vector3 worldPos)
@@ -69,6 +103,31 @@ public class AudioManager : MonoBehaviour
         {
             emitter.Stop();
         }
+    }
+
+    void UpdateMasterVolume(float value)
+    {
+        masterBus.setVolume(value);
+    }
+
+    void UpdateMusicVolume(float value)
+    {
+        musicBus.setVolume(value);
+    }
+
+    void UpdateSFXVolume(float value)
+    {
+        sfxBus.setVolume(value);
+    }
+
+    void UpdateAmbienceVolume(float value)
+    {
+        ambienceBus.setVolume(value);
+    }
+
+    void PlayButtonPressedSound()
+    {
+        GUIButtonPress.start();
     }
 
     private void OnDestroy()

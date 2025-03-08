@@ -149,18 +149,57 @@ public class BasicFPCC : MonoBehaviour
     [Space(5)]
     public bool cursorActive = false;                // cursor state
 
+    bool isPaused = false;
+
+    public float bobFrequency = 0.01f; // How fast the bobbing occurs
+    public float bobAmplitude = 0.05f; // How high the bobbing is
+    private float bobTimer = 0.0f;
 
     void Start()
     {
         Initialize();
     }
 
+    private void OnEnable()
+    {
+        GUIManager.OnPause += PauseFeedback;
+        GUIManager.OnUnpause += ResumeFeedback;
+        GUIManager.OnSensitivitySliderChanged += ChangeSensitivity;
+    }
+
+    private void OnDisable()
+    {
+        GUIManager.OnPause -= PauseFeedback;
+        GUIManager.OnUnpause -= ResumeFeedback;
+        GUIManager.OnSensitivitySliderChanged -= ChangeSensitivity;
+    }
+
     void Update()
     {
-        ProcessInputs();
-        ProcessLook();
-        ProcessMovement();
-        ProcessAudio();
+        if (!isPaused)
+        {
+            ProcessInputs();
+            ProcessLook();
+            ProcessMovement();
+            ProcessAudio();
+        }
+    }
+
+    void ChangeSensitivity(float value)
+    {
+        mouseSensitivityX = value;
+        mouseSensitivityY = value;
+    }
+
+    void PauseFeedback()
+    {
+        isPaused = true;
+        playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+    }
+
+    void ResumeFeedback()
+    {
+        isPaused = false;
     }
 
     void Initialize()
@@ -442,6 +481,11 @@ public class BasicFPCC : MonoBehaviour
     {
         if ((controller.velocity.x < -0.01f || controller.velocity.x > 0.01f || controller.velocity.z < -0.01f || controller.velocity.z > 0.01f) && isGrounded)
         {
+            // Update the bobbing timer based on movement
+            bobTimer += Time.deltaTime * controller.velocity.x; // Increase timer based on speed
+            float bobOffset = Mathf.Sin(bobTimer * bobFrequency) * bobAmplitude; // Sinusoidal bobbing effect
+            cameraTx.localPosition = new Vector3(cameraTx.localPosition.x, cameraStartY + bobOffset, cameraTx.localPosition.z);
+
             PLAYBACK_STATE playbackState;
             playerFootsteps.getPlaybackState(out playbackState);
             if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
@@ -451,6 +495,10 @@ public class BasicFPCC : MonoBehaviour
         }
         else
         {
+            // Reset bobbing when not moving
+            bobTimer = 0.0f;
+            cameraTx.localPosition = new Vector3(cameraTx.localPosition.x, Mathf.Lerp(cameraTx.localPosition.y, cameraStartY, Time.deltaTime * 5f), cameraTx.localPosition.z);
+
             playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
         }
     }

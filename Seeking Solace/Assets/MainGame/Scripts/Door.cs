@@ -18,6 +18,12 @@ public class Door : MonoBehaviour
     float initialTime = 0.0f;
     bool playerInteraction = false;
     bool isMoving = false;
+    bool playerIsColliding = false;
+
+    private void OnEnable()
+    {
+        InteractWithObject.OnObjectInteraction += Toggle;
+    }
 
     private void Start()
     {
@@ -28,8 +34,9 @@ public class Door : MonoBehaviour
     }
 
     //Open or close the door in the correct direction
-    public void Toggle()
+    public void Toggle(GameObject doorObj)
     {
+        if (gameObject != doorObj) return;
         //Get player and pickup script
         GameObject playerObject = GameObject.Find("Player");
         PickupDrop pickScript = playerObject.GetComponent<PickupDrop>();
@@ -67,6 +74,7 @@ public class Door : MonoBehaviour
 
         if (isMoving)
         {
+            gameObject.GetComponent<BoxCollider>().enabled = false;
             if (!isOpen && !AudioManager.Instance.IsPlaying(doorClose))
             {
                 doorClose.start();
@@ -81,7 +89,7 @@ public class Door : MonoBehaviour
             initialTime += Time.deltaTime;
             timeCount = Mathf.Clamp01(timeCount); // Ensure value is between 0 and 1
             Quaternion newRotation = isOpen ? targetRotation : startRotation;
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, newRotation, timeCount / 4.5f);
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, newRotation, timeCount / 4.0f);
 
             // Check if the door has sufficiently rotated
             if (transform.localRotation == newRotation)
@@ -90,6 +98,10 @@ public class Door : MonoBehaviour
                 isMoving = false; // Stop movement
                 initialTime = 0.0f;
             }
+        }
+        else
+        {
+            gameObject.GetComponent<BoxCollider>().enabled = true;
         }
     }
 }

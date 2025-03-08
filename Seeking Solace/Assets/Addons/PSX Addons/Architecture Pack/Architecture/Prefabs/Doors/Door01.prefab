@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 368764479929935302}
   - component: {fileID: 3448500072962420090}
   - component: {fileID: 9020255685447728609}
-  - component: {fileID: 2536427030151724201}
   - component: {fileID: 7483809604177976321}
+  - component: {fileID: 7751379341511164911}
   m_Layer: 3
   m_Name: Door01
   m_TagString: Door
@@ -28,10 +28,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6124344966072441852}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1.05}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1563641589107974091}
   - {fileID: 7122516373524535747}
@@ -87,8 +87,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2536427030151724201
-MeshCollider:
+--- !u!114 &7483809604177976321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6124344966072441852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2202059c89cb954695296d0aca3d65c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startRotation: {x: 0, y: 0, z: 0, w: 1}
+  targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  rotateClockwise: 1
+--- !u!65 &7751379341511164911
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,25 +120,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 8161670898622400657, guid: 5b7de892548834e3f8c53671f6cf5080, type: 3}
---- !u!114 &7483809604177976321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6124344966072441852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2202059c89cb954695296d0aca3d65c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-  targetRotation: {x: 0, y: 0, z: 0, w: 0}
-  rotateClockwise: 0
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.989794, z: 0.01}
+  m_Center: {x: -0.4998513, y: 0.00000008940697, z: -0.0000019073486}
 --- !u!1001 &3827398937831696749
 PrefabInstance:
   m_ObjectHideFlags: 0

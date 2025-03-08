@@ -6,30 +6,73 @@ using UnityEngine;
 public class InteractWithObject : MonoBehaviour
 {
     public static event Action<GameObject> OnObjectInteraction;
-    Transform camera;
+    public static event Action OnHoverInteractable;
+    public static event Action OnOutsideInteractable;
+    Transform mainCamera;
+    int LayerName;
+    bool isPaused = false;
+
+    private void OnEnable()
+    {
+        GUIManager.OnPause += PauseFeedback;
+        GUIManager.OnUnpause += ResumeFeedback;
+    }
+
+    private void OnDisable()
+    {
+        GUIManager.OnPause -= PauseFeedback;
+        GUIManager.OnUnpause -= ResumeFeedback;
+    }
 
     private void Awake()
     {
-        camera = Camera.main.transform;
+        LayerName = LayerMask.NameToLayer("Interactable");
+        mainCamera = Camera.main.transform;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (!isPaused)
         {
             RaycastHit hit;
 
             // Cast a ray from the player's position to detect objects in front of them
-            if (Physics.Raycast(camera.position, camera.forward, out hit, 3f))
+            if (Physics.Raycast(mainCamera.position, mainCamera.forward, out hit, 3f))
             {
-                GameObject objHit;
-
-                if (!hit.collider.transform.GetComponent<Wardrobe>())
-                    objHit = hit.collider.transform.parent.gameObject;
+                if (hit.collider.gameObject.layer == LayerName)
+                {
+                    OnHoverInteractable?.Invoke();
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        GameObject objHit;
+                        if (!hit.collider.transform.GetComponent<Wardrobe>())
+                            objHit = hit.collider.transform.parent.gameObject;
+                        else
+                            objHit = hit.collider.gameObject;
+                        if (hit.collider.transform.GetComponent<Door>())
+                            objHit = hit.collider.gameObject;
+                        OnObjectInteraction?.Invoke(objHit);
+                    }
+                }
                 else
-                    objHit = hit.collider.gameObject;
-                OnObjectInteraction?.Invoke(objHit);
+                {
+                    OnOutsideInteractable?.Invoke();
+                }
+            }
+            else
+            {
+                OnOutsideInteractable?.Invoke();
             }
         }
+    }
+
+    void PauseFeedback()
+    {
+        isPaused = true;
+    }
+
+    void ResumeFeedback()
+    {
+        isPaused = false;
     }
 }
