@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-        nightNum = -1;
+        nightNum = 0;
         nextNightCall();
     }
 

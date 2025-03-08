@@ -15,12 +15,14 @@ public class ToggleDoor : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E)) //Press 'E' to toggle doors}
         {
+            Debug.Log("Trying to open door");
             TryOpenDoor();
         }
     }
 
     void TryOpenDoor()
     {
+        Debug.Log("Raycasting");
         RaycastHit hit;
 
         if(Physics.Raycast(camera.position, camera.forward, out hit, interactRange))

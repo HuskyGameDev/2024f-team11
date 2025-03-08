@@ -20,6 +20,7 @@ public class DadAI : MonoBehaviour
     private Animator animator;
     private int currFloor;
     private Vector3 currRoom;
+    [SerializeField] private Transform targetPos;
 
     private int aggression;
 
@@ -44,13 +45,14 @@ public class DadAI : MonoBehaviour
     {
         //rigidbody = GetComponent<Rigidbody>();
         Agent = GetComponent<NavMeshAgent>();
-        animator = gameObject.GetComponent<Animator>();
+        animator = gameObject.transform.GetChild(0).GetComponent<Animator>();
 
         behaviorMode = Mode.Wandering;
 
         vision = new Ray[9];
         areaMask = 1;
         currFloor = 1;
+        currRoom = transform.position;
 
 
 
@@ -151,8 +153,6 @@ public class DadAI : MonoBehaviour
             timeInSpotlight = 0;
         }
 
-        if (Input.GetKeyDown("e")) goToAlert(FindObjectOfType<CharacterController>().transform.position);
-
         animator.SetBool("Walking", Agent.isStopped);
 
         //Debug.Log(Agent.destination + ", " + Vector3.Distance(transform.position, Agent.destination));
@@ -176,7 +176,10 @@ public class DadAI : MonoBehaviour
     {
         Vector3 destination = randomNavmeshPoint();
         if (destination != Vector3.zero)
+        {
             Agent.SetDestination(destination);
+            targetPos.position = destination;
+        }
     }
 
     private void Adventure()    //Pick a random point in a nearby room and go to it
@@ -185,7 +188,10 @@ public class DadAI : MonoBehaviour
 
         Vector3 destination = randomNavmeshPoint();
         if (destination != Vector3.zero)
+        {
             Agent.SetDestination(destination);
+            targetPos.position = destination;
+        }
     }
 
     private IEnumerator schedule()  //Wander to a random spot in the room every 5-10 seconds, then change rooms every minute
@@ -276,17 +282,18 @@ public class DadAI : MonoBehaviour
 
     private Vector3 getRoomCenter()
     {
+        Debug.Log("Current room: " + currRoom);
         return currRoom;
     }
 
     private IEnumerator tempOpenDoor(GameObject door)
     {
         door.SendMessage("Toggle");
-        door.GetComponent<MeshCollider>().enabled = false;
+        //door.GetComponent<MeshCollider>().enabled = false;
 
         yield return new WaitForSeconds(1);
 
-        door.GetComponent<MeshCollider>().enabled = true;
+        //door.GetComponent<MeshCollider>().enabled = true;
         door.SendMessage("Toggle");
     }
 
