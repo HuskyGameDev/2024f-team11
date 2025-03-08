@@ -30,7 +30,7 @@ public class ToggleDoor : MonoBehaviour
             if(hit.collider.CompareTag("Door"))
             {
                 OnHoverDoor?.Invoke();
-                hit.collider.GetComponent<Door>().Toggle();
+                hit.collider.GetComponent<Door>().Toggle(hit.collider.gameObject);
             }
         }
     }

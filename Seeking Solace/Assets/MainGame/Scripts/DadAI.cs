@@ -21,6 +21,9 @@ public class DadAI : MonoBehaviour
     private int currFloor;
     private Vector3 currRoom;
     [SerializeField] private Transform targetPos;
+    private bool atCurrDest;
+    private bool pathingUp;
+    private bool pathingDown;
 
     private int aggression;
 
@@ -153,23 +156,68 @@ public class DadAI : MonoBehaviour
             timeInSpotlight = 0;
         }
 
-        animator.SetBool("Walking", Agent.isStopped);
+        if (Input.GetKeyDown(KeyCode.V)) goToAlert(GameObject.Find("Player").transform.position);
+        if (Input.GetKeyDown(KeyCode.B)) pathUpstairs();
+
+        animator.SetBool("Walking", Agent.velocity.magnitude >= 1);
+
+        if ((Agent.remainingDistance <= 0.1f) != atCurrDest)
+        {
+            Debug.Log("Arrived: " + (Agent.remainingDistance <= 0.1f));
+            Debug.Log("Pathing Upstairs: " + pathingUp + ", Pathing Downstairs: " + pathingDown);
+            if (pathingUp) pathUpstairs2();
+            if (pathingDown) tpFloor1();
+        }
+        atCurrDest = Agent.remainingDistance <= 0.1f;
 
         //Debug.Log(Agent.destination + ", " + Vector3.Distance(transform.position, Agent.destination));
     }
 
-    public void tpFloor2()
+    private void pathUpstairs()
     {
+        pathingUp = true;
+        StopAllCoroutines();
+        Debug.Log("Pathing upstairs");
+        Vector3 destination = GameObject.Find("Room Centers Floor 1").transform.GetChild(7).position;
+
+        Agent.SetDestination(destination);
+        targetPos.position = destination;
+    }
+    private void pathUpstairs2()
+    {
+        transform.rotation = Quaternion.identity;
+        Debug.Log("Climbing");
+        animator.SetTrigger("Climb");
+        pathingUp = false;
+    }
+    private void pathDownstairs()
+    {
+        StopAllCoroutines();
+        Vector3 destination = GameObject.Find("Room Centers Floor 2").transform.GetChild(7).position;
+
+        Agent.SetDestination(destination);
+        targetPos.position = destination;
+    }
+
+    public void tpFloor2()  //Gets triggered from the climbing animation
+    {
+        Debug.Log("TP Floor 2");
         //Animation only makes it look like he's climbing, so this would teleport him up once his animation is done
         gameObject.transform.position = FindObjectOfType<HouseNavManager>().getNearbyRooms(2).transform.GetChild(7).position;
         Agent.areaMask = 1 << 3;
         currFloor = 2;
+
+        currRoom = transform.position;
+        StartCoroutine(activeSchedule);
     }
     public void tpFloor1()
     {
         gameObject.transform.position = FindObjectOfType<HouseNavManager>().getNearbyRooms(1).transform.GetChild(7).position;
         Agent.areaMask = 1 << 0;
         currFloor = 1;
+
+        currRoom = transform.position;
+        StartCoroutine(activeSchedule);
     }
 
     private void Wander()   //Pick a random point in the current room and go to it
@@ -198,35 +246,45 @@ public class DadAI : MonoBehaviour
     {
         float loopTime;
         if (aggression != 0)
-            loopTime = 30f / aggression;
+            loopTime = 15f / aggression;
         else
-            loopTime = 30;
+            loopTime = 15;
         float startTime = Time.time;
 
         while (startTime + loopTime > Time.time)
         {
             Wander();
-            yield return new WaitForSeconds(Random.Range(5, 10));
+            yield return new WaitForSeconds(Random.Range(3, 6));
             Debug.Log("Time remaining: " + (startTime - Time.time + loopTime));
             yield return new WaitForEndOfFrame();
         }
         
         Debug.Log("Adventuring");
         Adventure();
-        while (Agent.path.status != NavMeshPathStatus.PathComplete) 
-            yield return new WaitForEndOfFrame();
-        Debug.Log("Restarting Schedule");
-        activeSchedule = schedule();
-        StartCoroutine(activeSchedule);
+
+        while (!Agent.pathPending)
+        {
+            if (Agent.remainingDistance <= Agent.stoppingDistance)
+            {
+                if (!Agent.hasPath || Agent.velocity.sqrMagnitude == 0f)
+                {
+                    Debug.Log("Restarting Schedule");
+                    activeSchedule = schedule();
+                    StartCoroutine(activeSchedule);
+                    break;
+                }
+            }
+        }
     }
 
     private void goToAlert(Vector3 alertLocation)
     {
+        Debug.Log("Chasing");
         animator.SetBool("Chasing", true);
         NavMeshHit hit;
         Debug.Log(alertLocation + ", " + NavMesh.SamplePosition(alertLocation, out hit, Agent.height * 2, NavMesh.AllAreas));
         //Stop Schedule
-        StopCoroutine(activeSchedule);
+        StopAllCoroutines();
         //Increase speed
         Agent.speed *= 2;
 
@@ -235,21 +293,24 @@ public class DadAI : MonoBehaviour
         Agent.SetDestination(hit.position);
         //Start playing angry monster noises
         Debug.Log(Agent.path.status);
-        while (Agent.path.status != NavMeshPathStatus.PathComplete && Vector3.Distance(transform.position, alertLocation) > 1f)
-        {
-            Debug.Log("Angry noises >:(");
-        }
         Agent.speed /= 2;
         animator.SetBool("Chasing", false);
 
         //Deal with the alert
 
-        //Resume schedule
-        if (currFloor == 2)
-            areaMask = 2;
-        else
-            areaMask = 1;
-        StartCoroutine(activeSchedule);
+        while (!Agent.pathPending)
+        {
+            if (Agent.remainingDistance <= Agent.stoppingDistance)
+            {
+                if (!Agent.hasPath || Agent.velocity.sqrMagnitude == 0f)
+                {
+                    Debug.Log("Restarting Schedule");
+                    activeSchedule = schedule();
+                    StartCoroutine(activeSchedule);
+                    break;
+                }
+            }
+        }
     }
 
     private bool visionCheck()  //Checks if the player is overlapping any of the rays cast from the head
@@ -299,6 +360,7 @@ public class DadAI : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Collision Enter");
         if (collision.gameObject.CompareTag("Door"))
         {
             StartCoroutine(tempOpenDoor(collision.gameObject));
