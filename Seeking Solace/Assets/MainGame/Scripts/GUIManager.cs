@@ -27,6 +27,9 @@ public class GUIManager : MonoBehaviour
     public Slider sliderSensitivity;
     public TextMeshProUGUI textBrightness;
     public Slider sliderBrightness;
+    public TextMeshProUGUI textNight;
+
+    public Animator TopGUIAnimator;
 
     RectTransform crosshairRect;
     public List<Texture> crosshairTextures;
@@ -58,12 +61,16 @@ public class GUIManager : MonoBehaviour
     {
         InteractWithObject.OnHoverInteractable += ChangeCrosshairToInteract;
         InteractWithObject.OnOutsideInteractable += ChangeCrosshairToDefault;
+        GameManager.StartNight += UpdateNightText;
+        DialogueManager.DialogueEnded += ShowNightAndObjective;
     }
 
     private void OnDisable()
     {
         InteractWithObject.OnHoverInteractable -= ChangeCrosshairToInteract;
         InteractWithObject.OnOutsideInteractable -= ChangeCrosshairToDefault;
+        GameManager.StartNight -= UpdateNightText;
+        DialogueManager.DialogueEnded -= ShowNightAndObjective;
     }
 
     private void Update()
@@ -100,18 +107,34 @@ public class GUIManager : MonoBehaviour
         SceneManager.LoadScene(index);
     }
 
+    void UpdateNightText(int nightNum)
+    {
+        textNight.text = "Night " + nightNum.ToString();
+    }
+
+    void ShowNightAndObjective(int nightNum)
+    {
+        TopGUIAnimator.SetTrigger("Start");
+    }
+
     void ChangeCrosshairToInteract()
     {
-        crosshairRect.sizeDelta = new Vector2(crosshairRect.sizeDelta.x, 256);
-        crosshairRect.localScale = new Vector2(0.25f, 0.25f);
-        crosshair.GetComponent<RawImage>().texture = crosshairTextures[(int)CrosshairType.INTERACT];
+        if (crosshair != null)
+        {
+            crosshairRect.sizeDelta = new Vector2(crosshairRect.sizeDelta.x, 256);
+            crosshairRect.localScale = new Vector2(0.25f, 0.25f);
+            crosshair.GetComponent<RawImage>().texture = crosshairTextures[(int)CrosshairType.INTERACT];
+        }
     }
 
     void ChangeCrosshairToDefault()
     {
-        crosshairRect.sizeDelta = new Vector2(crosshairRect.sizeDelta.x, 128);
-        crosshairRect.localScale = new Vector2(0.50f, 0.50f);
-        crosshair.GetComponent<RawImage>().texture = crosshairTextures[(int)CrosshairType.DEFAULT];
+        if (crosshair != null)
+        {
+            crosshairRect.sizeDelta = new Vector2(crosshairRect.sizeDelta.x, 128);
+            crosshairRect.localScale = new Vector2(0.50f, 0.50f);
+            crosshair.GetComponent<RawImage>().texture = crosshairTextures[(int)CrosshairType.DEFAULT];
+        }
     }
 
     public void OpenSettings()
@@ -144,6 +167,7 @@ public class GUIManager : MonoBehaviour
         if (gameGUI != null)
             gameGUI.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0;
     }
 
     void HandleUnpause()
@@ -154,6 +178,7 @@ public class GUIManager : MonoBehaviour
         if (gameGUI != null)
             gameGUI.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
+        Time.timeScale = 1;
     }
 
     public void MasterVolumeChanged()

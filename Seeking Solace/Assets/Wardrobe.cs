@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMOD.Studio;
 
 public class Wardrobe : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class Wardrobe : MonoBehaviour
     Quaternion rightTargetRotation;
     MeshRenderer renderer;
     MeshRenderer rendererTwo;
+    EventInstance wardrobeOpen;
+    EventInstance wardrobeClose;
     Color newColor;
     float opacity = 0.5f;
     bool isOpen = false;
@@ -45,6 +48,9 @@ public class Wardrobe : MonoBehaviour
         leftTargetRotation = doorDirectionToggle ? Quaternion.Euler(0f, -90f + leftStartRotation.eulerAngles.y, 0f) : Quaternion.Euler(0f, 90f + leftStartRotation.eulerAngles.y, 0f);
         rightStartRotation = Quaternion.Euler(0f, 0f, 0f);
         rightTargetRotation = doorDirectionToggle ? Quaternion.Euler(0f, 90f + rightStartRotation.eulerAngles.y, 0f) : Quaternion.Euler(0f, -90f + rightStartRotation.eulerAngles.y, 0f);
+
+        wardrobeOpen = AudioManager.Instance.CreateInstance(FMODEvents.Instance.wardrobeOpen);
+        wardrobeClose = AudioManager.Instance.CreateInstance(FMODEvents.Instance.wardrobeClose);
     }
 
     private void Update()
@@ -59,6 +65,16 @@ public class Wardrobe : MonoBehaviour
 
         if (isMoving)
         {
+            if (!isOpen && !AudioManager.Instance.IsPlaying(wardrobeClose))
+            {
+                wardrobeClose.start();
+                wardrobeOpen.stop(STOP_MODE.ALLOWFADEOUT);
+            }
+            else if (isOpen && !AudioManager.Instance.IsPlaying(wardrobeOpen))
+            {
+                wardrobeOpen.start();
+                wardrobeClose.stop(STOP_MODE.ALLOWFADEOUT);
+            }
             timeCount += Time.deltaTime;
             timeCount = Mathf.Clamp01(timeCount); // Ensure value is between 0 and 1
             Quaternion newLeftRotation = isOpen ? leftTargetRotation : leftStartRotation;
@@ -66,10 +82,15 @@ public class Wardrobe : MonoBehaviour
             leftDoorTransform.localRotation = Quaternion.Slerp(leftDoorTransform.localRotation, newLeftRotation, timeCount / 4.5f);
             rightDoorTransform.localRotation = Quaternion.Slerp(rightDoorTransform.localRotation, newRightRotation, timeCount / 4.5f);
 
+            leftDoorTransform.gameObject.GetComponent<MeshCollider>().enabled = false;
+            rightDoorTransform.gameObject.GetComponent<MeshCollider>().enabled = false;
+
             // Check if the door has sufficiently rotated
             if (leftDoorTransform.localRotation == newLeftRotation && rightDoorTransform.localRotation == newRightRotation)
             {
                 isMoving = false; // Stop movement
+                leftDoorTransform.gameObject.GetComponent<MeshCollider>().enabled = true;
+                rightDoorTransform.gameObject.GetComponent<MeshCollider>().enabled = true;
             }
         }
 

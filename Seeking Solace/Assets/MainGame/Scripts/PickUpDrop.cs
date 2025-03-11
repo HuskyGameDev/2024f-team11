@@ -8,21 +8,28 @@ public class PickupDrop : MonoBehaviour
     public float pickupRange = 3f;     // How close the player needs to be to pick up the item
     public Transform itemHoldPosition; // The position where the item will be held
     private GameObject pickedUpItem;   // The currently picked up item
+    private GameObject emptyGameObject;
     private Rigidbody itemRb;          // Rigidbody of the item
-    
+
+    private void Start()
+    {
+        pickedUpItem = null;
+        emptyGameObject = new GameObject();
+    }
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)) // Press 'E' to interact (pick up/drop)
-        {
-            if (pickedUpItem == null)
-            {
-                TryPickUpItem();
-            }
-            else
-            {
-                DropItem();
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.E)) // Press 'E' to interact (pick up/drop)
+        //{
+        //    if (pickedUpItem == emptyGameObject)
+        //    {
+        //        TryPickUpItem();
+        //    }
+        //    else
+        //    {
+        //        DropItem();
+        //    }
+        //}
     }
 
     void TryPickUpItem()
@@ -51,27 +58,27 @@ public class PickupDrop : MonoBehaviour
 
     void DropItem()
     {
-        if (pickedUpItem != null)
+        if (pickedUpItem != emptyGameObject)
         {
             pickedUpItem.transform.SetParent(null); // Unparent the item
             itemRb.isKinematic = false; // Re-enable physics
             itemRb = null;
-            pickedUpItem = null;
+            pickedUpItem = emptyGameObject;
         }
     }
 
     public GameObject getPickedItem()
     {
-        return pickedUpItem;
+        return  pickedUpItem;
     }
 
     public void ConsumeHeldItem()
     {
-        if (pickedUpItem != null)
+        if (pickedUpItem != emptyGameObject)
         {
             Destroy(pickedUpItem);
             itemRb = null;
-            pickedUpItem = null;
+            pickedUpItem = emptyGameObject;
         }
     }
 }

@@ -49,7 +49,7 @@ public class InteractWithObject : MonoBehaviour
                             objHit = hit.collider.transform.parent.gameObject;
                         else
                             objHit = hit.collider.gameObject;
-                        if (hit.collider.transform.GetComponent<Door>())
+                        if (hit.collider.transform.GetComponent<Door>() || hit.collider.transform.GetComponent<Drawer>())
                             objHit = hit.collider.gameObject;
                         OnObjectInteraction?.Invoke(objHit);
                     }

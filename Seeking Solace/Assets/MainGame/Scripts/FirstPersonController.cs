@@ -28,6 +28,7 @@
 // at the end of this script is a Menu Item function to create and auto-configure a BasicFPCC object
 // GameObject -> 3D Object -> BasicFPCC
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -94,7 +95,7 @@ public class BasicFPCC : MonoBehaviour
 
     [Header("Move Settings")]
     public float crouchSpeed = 3f;                   // crouching movement speed
-    public float walkSpeed = 7f;                     // regular movement speed
+    public float walkSpeed = 5f;                     // regular movement speed
     public float runSpeed = 12f;                     // run movement speed
     public float slideSpeed = 14f;                   // slide movement speed
     public float slideDuration = 2.2f;               // duration of slide
@@ -150,10 +151,17 @@ public class BasicFPCC : MonoBehaviour
     public bool cursorActive = false;                // cursor state
 
     bool isPaused = false;
+    bool isInAnimation = true;
 
     public float bobFrequency = 0.01f; // How fast the bobbing occurs
-    public float bobAmplitude = 0.05f; // How high the bobbing is
+    public float bobAmplitude = 0.25f; // How high the bobbing is
     private float bobTimer = 0.0f;
+
+    public Vector3 velocity = Vector3.zero;
+    Vector3 cameraOffset;
+
+    public static event Action PlayerStartedMoving;
+    public static event Action PlayerStoppedMoving;
 
     void Start()
     {
@@ -165,6 +173,8 @@ public class BasicFPCC : MonoBehaviour
         GUIManager.OnPause += PauseFeedback;
         GUIManager.OnUnpause += ResumeFeedback;
         GUIManager.OnSensitivitySliderChanged += ChangeSensitivity;
+        PlayerAnimationHandler.AnimationStarted += PauseFeedbackFromAnimation;
+        PlayerAnimationHandler.AnimationStopped += ResumeFeedbackFromAnimation;
     }
 
     private void OnDisable()
@@ -172,11 +182,13 @@ public class BasicFPCC : MonoBehaviour
         GUIManager.OnPause -= PauseFeedback;
         GUIManager.OnUnpause -= ResumeFeedback;
         GUIManager.OnSensitivitySliderChanged -= ChangeSensitivity;
+        PlayerAnimationHandler.AnimationStarted -= PauseFeedbackFromAnimation;
+        PlayerAnimationHandler.AnimationStopped -= ResumeFeedbackFromAnimation;
     }
 
     void Update()
     {
-        if (!isPaused)
+        if (!isPaused && !isInAnimation)
         {
             ProcessInputs();
             ProcessLook();
@@ -197,9 +209,19 @@ public class BasicFPCC : MonoBehaviour
         playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
     }
 
+    void PauseFeedbackFromAnimation(int i)
+    {
+        isInAnimation = true;
+    }
+
     void ResumeFeedback()
     {
         isPaused = false;
+    }
+
+    void ResumeFeedbackFromAnimation(int i)
+    {
+        isInAnimation = false;
     }
 
     void Initialize()
@@ -214,6 +236,7 @@ public class BasicFPCC : MonoBehaviour
         fauxGravity = Vector3.up * gravity;
         lastPos = playerTx.position;
         cameraStartY = cameraTx.localPosition.y;
+        cameraOffset = cameraTx.localPosition - transform.position;
         groundOffsetY = groundCheckY;
         ceilingOffsetY = ceilingCheckY;
 
@@ -364,7 +387,7 @@ public class BasicFPCC : MonoBehaviour
             // offset camera
             calc = cameraTx.localPosition;
             calc.y = (controller.height / defaultHeight) + cameraStartY - (defaultHeight * 0.5f);
-            cameraTx.localPosition = calc;
+            //cameraTx.localPosition = calc;
 
             // calculate offset
             float heightFactor = (defaultHeight - controller.height) * 0.5f;
@@ -481,10 +504,11 @@ public class BasicFPCC : MonoBehaviour
     {
         if ((controller.velocity.x < -0.01f || controller.velocity.x > 0.01f || controller.velocity.z < -0.01f || controller.velocity.z > 0.01f) && isGrounded)
         {
-            // Update the bobbing timer based on movement
-            bobTimer += Time.deltaTime * controller.velocity.x; // Increase timer based on speed
-            float bobOffset = Mathf.Sin(bobTimer * bobFrequency) * bobAmplitude; // Sinusoidal bobbing effect
-            cameraTx.localPosition = new Vector3(cameraTx.localPosition.x, cameraStartY + bobOffset, cameraTx.localPosition.z);
+            PlayerStartedMoving?.Invoke();
+            //// Update the bobbing timer based on movement
+            //bobTimer += Time.deltaTime * controller.velocity.x; // Increase timer based on speed
+            //float bobOffset = Mathf.Sin(bobTimer * bobFrequency) * bobAmplitude; // Sinusoidal bobbing effect
+            //cameraTx.localPosition = new Vector3(cameraTx.localPosition.x, cameraStartY + bobOffset, cameraTx.localPosition.z);
 
             PLAYBACK_STATE playbackState;
             playerFootsteps.getPlaybackState(out playbackState);
@@ -495,9 +519,10 @@ public class BasicFPCC : MonoBehaviour
         }
         else
         {
-            // Reset bobbing when not moving
-            bobTimer = 0.0f;
-            cameraTx.localPosition = new Vector3(cameraTx.localPosition.x, Mathf.Lerp(cameraTx.localPosition.y, cameraStartY, Time.deltaTime * 5f), cameraTx.localPosition.z);
+            PlayerStoppedMoving?.Invoke();
+            //// Reset bobbing when not moving
+            //bobTimer = 0.0f;
+            //cameraTx.localPosition = new Vector3(cameraTx.localPosition.x, Mathf.Lerp(cameraTx.localPosition.y, cameraStartY, Time.deltaTime * 1f), cameraTx.localPosition.z);
 
             playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
         }

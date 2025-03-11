@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
 {
     private EventInstance mainMusic;
     private EventInstance GUIButtonPress;
+    private EventInstance wakeUp;
     private List<EventInstance> eventInstances;
     private List<StudioEventEmitter> eventEmitters;
     FMOD.Studio.Bus masterBus;
@@ -40,6 +41,7 @@ public class AudioManager : MonoBehaviour
 
         mainMusic = AudioManager.Instance.CreateInstance(FMODEvents.Instance.mainMusic);
         GUIButtonPress = AudioManager.Instance.CreateInstance(FMODEvents.Instance.GUIButtonPress);
+        wakeUp = AudioManager.Instance.CreateInstance(FMODEvents.Instance.WakeUp);
         mainMusic.start();
 
     }
@@ -51,6 +53,7 @@ public class AudioManager : MonoBehaviour
         GUIManager.OnAmbienceSliderChanged += UpdateAmbienceVolume;
         GUIManager.OnSFXSliderChanged += UpdateSFXVolume;
         GUIManager.OnButtonPressed += PlayButtonPressedSound;
+        PlayerAnimationHandler.AnimationStarted += PlayWakeUpEvent;
     }
 
     private void OnDisable()
@@ -60,6 +63,7 @@ public class AudioManager : MonoBehaviour
         GUIManager.OnAmbienceSliderChanged -= UpdateAmbienceVolume;
         GUIManager.OnSFXSliderChanged -= UpdateSFXVolume;
         GUIManager.OnButtonPressed -= PlayButtonPressedSound;
+        PlayerAnimationHandler.AnimationStarted -= PlayWakeUpEvent;
     }
 
     public void PlayOneShot(EventReference sound, Vector3 worldPos)
@@ -128,6 +132,11 @@ public class AudioManager : MonoBehaviour
     void PlayButtonPressedSound()
     {
         GUIButtonPress.start();
+    }
+
+    void PlayWakeUpEvent(int i)
+    {
+        wakeUp.start();
     }
 
     private void OnDestroy()

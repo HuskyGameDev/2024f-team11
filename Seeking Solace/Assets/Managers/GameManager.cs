@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public int nightNum;
+    public GameState State;
+    public static event Action<GameState> OnGameStateChanged;
 
     public static event Action<int> nextNight;
+    public static event Action<int> StartNight;
 
     #region Singleton Setup
     public static GameManager Instance { get; private set; }
@@ -29,31 +31,55 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        UpdateGameState(GameState.NIGHT_ONE);
         DontDestroyOnLoad(gameObject);
-        nightNum = 0;
-        nextNightCall();
     }
 
-    private void Update()
+    public void UpdateGameState(GameState newState)
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-            nextNightCall();
-    }
-    private void OnLevelWasLoaded(int level)
-    {
-        if (level == 0)
-            nextNightCall();
-    }
+        State = newState;
 
-    public void nextNightCall()
-    {
-        Debug.Log("Calling next night with night " + nightNum);
-        nightNum++;
-        nextNight?.Invoke(nightNum);
-    }
+        switch (newState)
+        {
+            case GameState.NIGHT_ONE:
+                // Spawn BS
+                StartNight?.Invoke(1);
+                break;
+            case GameState.NIGHT_TWO:
+                // Spawn monster
+                //Spawn BS
+                break;
+            case GameState.NIGHT_THREE:
+                // Spawn upstairs keys
+                // Spawn monster
+                // Spawn BS
+                break;
+            case GameState.NIGHT_FOUR:
+                // Spawn basement keys
+                // Spawn monster
+                // Spawn BS
+                break;
+            case GameState.NIGHT_FIVE:
+                // Spawn front door keys
+                // Spawn monster
+                // Spawn BS
+                break;
+            case GameState.GAME_OVER:
+                break;
+            default:
+                break;
+        }
 
-    public int getNightNum()
-    {
-        return nightNum;
+        OnGameStateChanged?.Invoke(newState);
     }
+}
+
+public enum GameState
+{
+    NIGHT_ONE,
+    NIGHT_TWO,
+    NIGHT_THREE,
+    NIGHT_FOUR,
+    NIGHT_FIVE,
+    GAME_OVER,
 }

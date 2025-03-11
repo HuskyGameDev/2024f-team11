@@ -25,6 +25,11 @@ public class Door : MonoBehaviour
         InteractWithObject.OnObjectInteraction += Toggle;
     }
 
+    private void OnDisable()
+    {
+        InteractWithObject.OnObjectInteraction -= Toggle;
+    }
+
     private void Start()
     {
         transform.localRotation = startRotation;
@@ -39,22 +44,22 @@ public class Door : MonoBehaviour
         if (gameObject != doorObj) return;
         //Get player and pickup script
         GameObject playerObject = GameObject.Find("Player");
-        PickupDrop pickScript = playerObject.GetComponent<PickupDrop>();
-        GameObject heldItem = pickScript.getPickedItem();
+        //PickupDrop pickScript = playerObject.GetComponent<PickupDrop>();
+        //GameObject heldItem = pickScript.getPickedItem();
 
         if (isLocked)
         {
-            if (heldItem.GetComponent<Key>() != null) //If held item is a key (has key component)
-            {
-                KeyColor keyColor = heldItem.GetComponent<Key>().GetColor();
-                if(keyColor == lockColor) //If keycolor matches door lock color
-                {
-                    isLocked = !isLocked;
-                    pickScript.ConsumeHeldItem();
-                    isOpen = !isOpen;
-                    //Play unlock sound and maybe some effect for key disappearing
-                }
-            }
+            //if (heldItem.GetComponent<Key>() != null) //If held item is a key (has key component)
+            //{
+            //    KeyColor keyColor = heldItem.GetComponent<Key>().GetColor();
+            //    if (keyColor == lockColor) //If keycolor matches door lock color
+            //    {
+            //        isLocked = !isLocked;
+            //        pickScript.ConsumeHeldItem();
+            //        isOpen = !isOpen;
+            //        //Play unlock sound and maybe some effect for key disappearing
+            //    }
+            //}
         }
         else
         {
