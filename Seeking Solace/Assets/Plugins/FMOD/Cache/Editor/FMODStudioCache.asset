@@ -175,10 +175,10 @@ MonoBehaviour:
   Path: ../Seeking Solace FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638773032153742034
+  lastModified: 638773753026438732
   FileSizes:
   - Name: Desktop
-    Value: 1680
+    Value: 1718
   Exists: 1
 --- !u!114 &-4209960196340301403
 MonoBehaviour:
@@ -207,6 +207,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 99970
+--- !u!114 &-3534058984184055398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX_PickUpBS
+  m_EditorClassIdentifier: 
+  Path: event:/SFX_PickUpBS
+  Guid:
+    Data1: -355969083
+    Data2: 1201526246
+    Data3: -1541176924
+    Data4: -539025841
+  Banks:
+  - {fileID: 7974404108740766386}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 137
 --- !u!114 &-3052530172289116142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,13 +347,14 @@ MonoBehaviour:
   - {fileID: 715572651908697792}
   - {fileID: 8549847671936207385}
   - {fileID: 1009947649122991044}
+  - {fileID: -3534058984184055398}
   EditorParameters:
   - {fileID: -7153756438397733898}
   MasterBanks:
   - {fileID: 7974404108740766386}
   StringsBanks:
   - {fileID: -4763435124565519512}
-  cacheTime: 638773032153742034
+  cacheTime: 638773753026438732
   cacheVersion: 131621
 --- !u!114 &715572651908697792
 MonoBehaviour:
@@ -529,10 +557,10 @@ MonoBehaviour:
   Path: ../Seeking Solace FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638773032153722078
+  lastModified: 638773753026151975
   FileSizes:
   - Name: Desktop
-    Value: 2777120
+    Value: 2780544
   Exists: 1
 --- !u!114 &8549847671936207385
 MonoBehaviour:

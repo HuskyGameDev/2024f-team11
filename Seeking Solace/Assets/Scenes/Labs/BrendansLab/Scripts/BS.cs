@@ -2,41 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using FMOD.Studio;
 
-public class PickUpBS : MonoBehaviour
-{
-    public Transform camera;           // Reference to the player or camera transform
+public class BS : MonoBehaviour
+{         
     public float pickupRange = 3f;     // How close the player needs to be to pick up the item
     public Transform itemHoldPosition; // The position where the item will be held
     private GameObject pickedUpItem;   // The currently picked up item
     private Rigidbody itemRb;          // Rigidbody of the item
+    private EventInstance pickUpBS;
     float timeCount = 0.0f;
+
+    private void OnEnable()
+    {
+        InteractWithObject.OnObjectInteraction += Interact;
+    }
+
+    private void OnDisable()
+    {
+        InteractWithObject.OnObjectInteraction -= Interact;
+    }
+
+    private void Start()
+    {
+        pickUpBS = AudioManager.Instance.CreateInstance(FMODEvents.Instance.pickUpBS);
+    }
 
     void Update()
     {
-        itemHoldPosition.transform.position = camera.position + (camera.forward * 0.80f);
-        itemHoldPosition.transform.rotation = camera.rotation;
-
-        if (Input.GetKeyDown(KeyCode.E)) // Press 'E' to interact (pick up/drop)
-        {
-            if (pickedUpItem == null)
-            {
-                TryPickUpItem();
-            }
-            else
-            {
-                DropItem();
-            }
-        }
-
         if (pickedUpItem)
         {
+            itemHoldPosition.transform.position = Camera.main.transform.position + (Camera.main.transform.forward * 1.20f);
+            itemHoldPosition.transform.rotation = Camera.main.transform.rotation;
+
             pickedUpItem.transform.position = Vector3.Lerp(pickedUpItem.transform.position, itemHoldPosition.position, timeCount);
             pickedUpItem.transform.localRotation = Quaternion.Lerp(pickedUpItem.transform.localRotation, Quaternion.Euler(60f, 180f, 0f), timeCount);
             timeCount += Time.deltaTime;
 
+            // BS Logic Goes Here
+
             if (Input.GetKeyDown(KeyCode.R))
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene(2);
+
+            // End BS Logic
         }
         else
         {
@@ -44,26 +52,28 @@ public class PickUpBS : MonoBehaviour
         }
     }
 
-    void TryPickUpItem()
+    void Interact(GameObject obj)
     {
-        RaycastHit hit;
+        if (gameObject != obj) return;
 
-        // Cast a ray from the player's position to detect objects in front of them
-        if (Physics.Raycast(camera.position, camera.forward, out hit, pickupRange))
+        // Play Interaction Animations/Sounds Here
+        if (pickedUpItem == null)
         {
-            Debug.Log(hit.collider);
-            // Check if the object is "pickable" by having a tag or specific layer
-            if (hit.collider.CompareTag("Pickable"))
-            {
-                pickedUpItem = hit.collider.gameObject;
-                itemRb = pickedUpItem.GetComponent<Rigidbody>();
+            pickedUpItem = obj;
+            itemRb = pickedUpItem.GetComponent<Rigidbody>();
 
-                if (itemRb != null)
-                {
-                    itemRb.isKinematic = true; // Disable physics while holding the object
-                    pickedUpItem.transform.SetParent(itemHoldPosition);
-                }
+            if (itemRb != null)
+            {
+                itemRb.isKinematic = true; // Disable physics while holding the object
+                pickedUpItem.transform.SetParent(itemHoldPosition);
             }
+
+            gameObject.GetComponent<Animator>().SetTrigger("Open");
+            pickUpBS.start();
+        }
+        else
+        {
+            DropItem();
         }
     }
 
@@ -75,6 +85,7 @@ public class PickUpBS : MonoBehaviour
             itemRb.isKinematic = false; // Re-enable physics
             itemRb = null;
             pickedUpItem = null;
+            gameObject.GetComponent<Animator>().SetTrigger("Close");
         }
     }
 

@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 640b9aa9cd6c85843844a5dc6ea2ee82
   - enabled: 1
-    path: Assets/Scenes/Utility/PastVersions/HouseBrendan.unity
-    guid: ab54587290e88754f9a32b6ea553dce1
+    path: Assets/Scenes/House.unity
+    guid: 5f4cc09206d109e42813cc7908215450
   - enabled: 1
     path: Assets/Scenes/Mini game.unity
     guid: 6a76977952a209048a95e9cd3352e60d

@@ -5225,6 +5225,20 @@ MonoBehaviour:
       Data3: -31492951
       Data4: 912733050
     Path: event:/SFX_DrawerClose
+  <pickUpBS>k__BackingField:
+    Guid:
+      Data1: -355969083
+      Data2: 1201526246
+      Data3: -1541176924
+      Data4: -539025841
+    Path: event:/SFX_PickUpBS
+  <dropBS>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   <GUIButtonPress>k__BackingField:
     Guid:
       Data1: 816341230
@@ -13749,7 +13763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.59607846}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -66221,6 +66235,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BS
       objectReference: {fileID: 0}
+    - target: {fileID: 1640463321707261650, guid: ff02c65731c855942b4b65ca79f5ee25, type: 3}
+      propertyPath: itemHoldPosition
+      value: 
+      objectReference: {fileID: 1535269064}
     - target: {fileID: 4105929880308499321, guid: ff02c65731c855942b4b65ca79f5ee25, type: 3}
       propertyPath: m_LocalPosition.x
       value: 369.656
@@ -68568,6 +68586,11 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8011641754750062723, guid: 5dab54d0ce8ef4c3b919dd3f5b27d0c6, type: 3}
   m_PrefabInstance: {fileID: 982585573}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1535269064 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3444118540399473139, guid: d7d3cba639e951c4a9007cc00e2d0e26, type: 3}
+  m_PrefabInstance: {fileID: 3906728142588287923}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1538047437
 GameObject:
@@ -93555,7 +93578,9 @@ PrefabInstance:
       propertyPath: walkSpeed
       value: 3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 26733308637265915, guid: d7d3cba639e951c4a9007cc00e2d0e26, type: 3}
+    - {fileID: 8895353419374569639, guid: d7d3cba639e951c4a9007cc00e2d0e26, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

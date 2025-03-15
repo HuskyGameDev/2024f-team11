@@ -84,7 +84,7 @@ public class DialogueManager : MonoBehaviour
         switch (nightNumber)
         {
             case 1:
-                StartDialogue(new string[] { "You woke up from a nightmare.", "Go find your BS and play it to unwind..." });
+                StartDialogue(new string[] { "You woke up from a nightmare...", "Go find your BS and play it to unwind." });
                 break;
             case 2:
                 StartDialogue(new string[] { "The night grows darker...", "Something lurks in the shadows..." });

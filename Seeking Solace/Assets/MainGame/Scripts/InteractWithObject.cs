@@ -45,11 +45,11 @@ public class InteractWithObject : MonoBehaviour
                     if (Input.GetKeyDown(KeyCode.E))
                     {
                         GameObject objHit;
-                        if (!hit.collider.transform.GetComponent<Wardrobe>())
+                        if (!hit.collider.transform.GetComponent<Wardrobe>() && hit.collider.transform.parent)
                             objHit = hit.collider.transform.parent.gameObject;
                         else
                             objHit = hit.collider.gameObject;
-                        if (hit.collider.transform.GetComponent<Door>() || hit.collider.transform.GetComponent<Drawer>())
+                        if (hit.collider.transform.GetComponent<Door>() || hit.collider.transform.GetComponent<Drawer>() || hit.collider.transform.GetComponent<BS>())
                             objHit = hit.collider.gameObject;
                         OnObjectInteraction?.Invoke(objHit);
                     }

@@ -14,6 +14,8 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference wardrobeClose { get; private set; }
     [field: SerializeField] public EventReference drawerOpen { get; private set; }
     [field: SerializeField] public EventReference drawerClose { get; private set; }
+    [field: SerializeField] public EventReference pickUpBS { get; private set; }
+    [field: SerializeField] public EventReference dropBS { get; private set; }
     [field: SerializeField] public EventReference GUIButtonPress { get; private set; }
     [field: SerializeField] public EventReference WakeUp { get; private set; }
 
