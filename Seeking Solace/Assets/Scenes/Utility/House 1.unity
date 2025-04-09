@@ -5255,11 +5255,11 @@ MonoBehaviour:
     Path: event:/SFX_WakeUp
   <mainMusic>k__BackingField:
     Guid:
-      Data1: 1990193376
-      Data2: 1076837844
-      Data3: -1992492657
-      Data4: -923741574
-    Path: event:/Music_Main
+      Data1: -1912857009
+      Data2: 1161672888
+      Data3: 2035058610
+      Data4: -459404897
+    Path: event:/MX_SeekingSolace
 --- !u!43 &132948699
 Mesh:
   m_ObjectHideFlags: 0
@@ -55816,6 +55816,8 @@ MonoBehaviour:
   textBrightness: {fileID: 1351246971}
   sliderBrightness: {fileID: 448401591}
   textNight: {fileID: 1662090903}
+  textObjective: {fileID: 0}
+  textFalseInteraction: {fileID: 0}
   TopGUIAnimator: {fileID: 1413352232}
   crosshairTextures:
   - {fileID: 2800000, guid: 4bb19522900b97f4488b4026add11568, type: 3}
@@ -55850,6 +55852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   State: 0
+  Objective: 0
 --- !u!114 &1185050291
 MonoBehaviour:
   m_ObjectHideFlags: 0

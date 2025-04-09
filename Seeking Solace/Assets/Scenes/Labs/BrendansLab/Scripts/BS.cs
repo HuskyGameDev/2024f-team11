@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,15 +13,29 @@ public class BS : MonoBehaviour
     private Rigidbody itemRb;          // Rigidbody of the item
     private EventInstance pickUpBS;
     float timeCount = 0.0f;
+    bool playable = false;
+    bool isInRoom = false;
+
+    public static event Action<bool> BSPickedUp;
+    public static event Action<bool> BSDropped;
 
     private void OnEnable()
     {
         InteractWithObject.OnObjectInteraction += Interact;
+        InteractWithObject.EnteredRoom += SetRoomState;
+        InteractWithObject.ExitedRoom += SetRoomState;
     }
 
     private void OnDisable()
     {
         InteractWithObject.OnObjectInteraction -= Interact;
+        InteractWithObject.EnteredRoom -= SetRoomState;
+        InteractWithObject.ExitedRoom -= SetRoomState;
+    }
+
+    private void SetRoomState(bool state)
+    {
+        isInRoom = state;
     }
 
     private void Start()
@@ -30,9 +45,18 @@ public class BS : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.Objective == Objective.PLAY_BS)
+        {
+            playable = true;
+        }
+        else
+        {
+            playable = false;
+        }
+
         if (pickedUpItem)
         {
-            itemHoldPosition.transform.position = Camera.main.transform.position + (Camera.main.transform.forward * 1.20f);
+            itemHoldPosition.transform.position = Camera.main.transform.position + (Camera.main.transform.forward * 1.20f) + (Camera.main.transform.right * 0.75f) + (-Camera.main.transform.up * 0.25f);
             itemHoldPosition.transform.rotation = Camera.main.transform.rotation;
 
             pickedUpItem.transform.position = Vector3.Lerp(pickedUpItem.transform.position, itemHoldPosition.position, timeCount);
@@ -41,8 +65,15 @@ public class BS : MonoBehaviour
 
             // BS Logic Goes Here
 
-            if (Input.GetKeyDown(KeyCode.R))
+            if (!isInRoom)
+                GameManager.Instance.UpdateObjective(Objective.GO_TO_ROOM);
+            else
+                GameManager.Instance.UpdateObjective(Objective.PLAY_BS);
+
+            if (playable && Input.GetKeyDown(KeyCode.R))
                 SceneManager.LoadScene(2);
+            if (Input.GetKeyDown(KeyCode.Q))
+                DropItem();
 
             // End BS Logic
         }
@@ -68,12 +99,12 @@ public class BS : MonoBehaviour
                 pickedUpItem.transform.SetParent(itemHoldPosition);
             }
 
-            gameObject.GetComponent<Animator>().SetTrigger("Open");
             pickUpBS.start();
-        }
-        else
-        {
-            DropItem();
+            if (!isInRoom)
+                GameManager.Instance.UpdateObjective(Objective.GO_TO_ROOM);
+            else
+                GameManager.Instance.UpdateObjective(Objective.PLAY_BS);
+            BSPickedUp?.Invoke(true);
         }
     }
 
@@ -81,11 +112,14 @@ public class BS : MonoBehaviour
     {
         if (pickedUpItem != null)
         {
+            pickedUpItem.transform.position = pickedUpItem.transform.parent.parent.position + Vector3.up * 2f;
             pickedUpItem.transform.SetParent(null); // Unparent the item
             itemRb.isKinematic = false; // Re-enable physics
             itemRb = null;
             pickedUpItem = null;
-            gameObject.GetComponent<Animator>().SetTrigger("Close");
+            //gameObject.GetComponent<Animator>().SetTrigger("Close");
+            GameManager.Instance.UpdateObjective(Objective.FIND_BS);
+            BSDropped?.Invoke(false);
         }
     }
 

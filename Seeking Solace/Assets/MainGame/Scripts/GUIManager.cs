@@ -28,6 +28,8 @@ public class GUIManager : MonoBehaviour
     public TextMeshProUGUI textBrightness;
     public Slider sliderBrightness;
     public TextMeshProUGUI textNight;
+    public TextMeshProUGUI textObjective;
+    public TextMeshProUGUI textFalseInteraction;
 
     public Animator TopGUIAnimator;
 
@@ -63,6 +65,9 @@ public class GUIManager : MonoBehaviour
         InteractWithObject.OnOutsideInteractable += ChangeCrosshairToDefault;
         GameManager.StartNight += UpdateNightText;
         DialogueManager.DialogueEnded += ShowNightAndObjective;
+        GameManager.OnObjectiveChanged += UpdateObjectiveText;
+        InteractWithObject.OnFalseInteraction += ShowFalseInteractionText;
+        InteractWithObject.OnObjectInteraction += HideFalseInteractionText;
     }
 
     private void OnDisable()
@@ -71,6 +76,9 @@ public class GUIManager : MonoBehaviour
         InteractWithObject.OnOutsideInteractable -= ChangeCrosshairToDefault;
         GameManager.StartNight -= UpdateNightText;
         DialogueManager.DialogueEnded -= ShowNightAndObjective;
+        GameManager.OnObjectiveChanged -= UpdateObjectiveText;
+        InteractWithObject.OnFalseInteraction -= ShowFalseInteractionText;
+        InteractWithObject.OnObjectInteraction -= HideFalseInteractionText;
     }
 
     private void Update()
@@ -112,6 +120,28 @@ public class GUIManager : MonoBehaviour
         textNight.text = "Night " + nightNum.ToString();
     }
 
+    void UpdateObjectiveText(Objective objective)
+    {
+        switch (objective)
+        {
+            case Objective.FIND_BS:
+                textObjective.text = "Find the BS";
+                break;
+            case Objective.PLAY_BS:
+                textObjective.text = "Play the BS";
+                break;
+            case Objective.FIND_KEY:
+                textObjective.text = "Find the key";
+                break;
+            case Objective.GO_TO_ROOM:
+                textObjective.text = "Go back to your room";
+                break;
+            default:
+                break;
+        }
+
+    }
+
     void ShowNightAndObjective(int nightNum)
     {
         TopGUIAnimator.SetTrigger("Start");
@@ -135,6 +165,18 @@ public class GUIManager : MonoBehaviour
             crosshairRect.localScale = new Vector2(0.50f, 0.50f);
             crosshair.GetComponent<RawImage>().texture = crosshairTextures[(int)CrosshairType.DEFAULT];
         }
+    }
+
+    void ShowFalseInteractionText(string text)
+    {
+        textFalseInteraction.gameObject.SetActive(true);
+        textFalseInteraction.GetComponent<Animator>().SetTrigger("Start");
+        textFalseInteraction.text = text;
+    }
+
+    void HideFalseInteractionText(GameObject obj)
+    {
+        textFalseInteraction.gameObject.SetActive(false);
     }
 
     public void OpenSettings()
