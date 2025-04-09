@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{fa99e26d-b8aa-4be9-a825-9ce4f18fecd4}">
+		<property name="assetPath">
+			<value>Locked Door.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>12.326734693877551</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4b6fb92c-9808-4b2d-8364-21c5e07345e4}</destination>
+		</relationship>
+	</object>
+</objects>
