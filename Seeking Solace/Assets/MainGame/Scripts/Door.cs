@@ -13,12 +13,10 @@ public class Door : MonoBehaviour
     public bool rotateClockwise = false;
     private EventInstance doorOpen;
     private EventInstance doorClose;
-    float doorOpenTime = 5.0f;
     float timeCount = 0.0f;
     float initialTime = 0.0f;
     bool playerInteraction = false;
     bool isMoving = false;
-    bool playerIsColliding = false;
 
     private void OnEnable()
     {

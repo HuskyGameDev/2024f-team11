@@ -18,6 +18,8 @@ public class DialogueManager : MonoBehaviour
     public float typingSpeed = 0.05f;
     public EventReference typingSoundEvent;
 
+    public static event Action StartingDialogueBegan;
+    public static event Action StartingDialogueEnded;
     public static event Action<int> DialogueEnded;
 
     private void Awake()
@@ -76,6 +78,7 @@ public class DialogueManager : MonoBehaviour
     {
         dialoguePanel.SetActive(false);
         DialogueEnded?.Invoke(currentNightNum);
+        StartingDialogueEnded?.Invoke();
     }
 
     private void OnNightChanged(int nightNumber)
@@ -99,6 +102,8 @@ public class DialogueManager : MonoBehaviour
                 StartDialogue(new string[] { "One final test remains.", "Survive this night, and you might see the dawn." });
                 break;
         }
+
+        StartingDialogueBegan?.Invoke();
     }
 
     private IEnumerator Delay()

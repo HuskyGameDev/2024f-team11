@@ -2214,7 +2214,42 @@ MonoBehaviour:
       Data3: -1418388299
       Data4: -805406004
     Path: event:/SFX_DoorClose
-  <droneAmbience>k__BackingField:
+  <wardrobeOpen>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <wardrobeClose>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <drawerOpen>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <drawerClose>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <pickUpBS>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <dropBS>k__BackingField:
     Guid:
       Data1: 0
       Data2: 0
@@ -2228,6 +2263,13 @@ MonoBehaviour:
       Data3: -315454543
       Data4: -667496335
     Path: event:/SFX_GUIButtonPress
+  <WakeUp>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   <mainMusic>k__BackingField:
     Guid:
       Data1: 1990193376
@@ -3661,7 +3703,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &286347249
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23973,6 +24015,10 @@ MonoBehaviour:
   sliderSensitivity: {fileID: 463553887}
   textBrightness: {fileID: 1351246971}
   sliderBrightness: {fileID: 448401591}
+  textNight: {fileID: 0}
+  textObjective: {fileID: 0}
+  textFalseInteraction: {fileID: 0}
+  TopGUIAnimator: {fileID: 0}
   crosshairTextures:
   - {fileID: 2800000, guid: 4bb19522900b97f4488b4026add11568, type: 3}
   - {fileID: 2800000, guid: 7a7d5e4a72fc09c4db616b006a201c61, type: 3}
@@ -24005,7 +24051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0199f3570cccf4446aba88fdd5f36f22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nightNum: 0
+  State: 0
+  Objective: 0
 --- !u!1 &1209131978
 GameObject:
   m_ObjectHideFlags: 0

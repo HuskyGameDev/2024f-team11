@@ -6,7 +6,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameState State;
+    public Objective Objective;
     public static event Action<GameState> OnGameStateChanged;
+    public static event Action<Objective> OnObjectiveChanged;
 
     public static event Action<int> nextNight;
     public static event Action<int> StartNight;
@@ -29,9 +31,11 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+
     private void Start()
     {
         UpdateGameState(GameState.NIGHT_ONE);
+        UpdateObjective(Objective.FIND_BS);
         DontDestroyOnLoad(gameObject);
     }
 
@@ -72,6 +76,27 @@ public class GameManager : MonoBehaviour
 
         OnGameStateChanged?.Invoke(newState);
     }
+
+    public void UpdateObjective(Objective newObjective)
+    {
+        Objective = newObjective;
+
+        switch (newObjective)
+        {
+            case Objective.FIND_BS:
+                break;
+            case Objective.PLAY_BS:
+                break;
+            case Objective.FIND_KEY:
+                break;
+            case Objective.GO_TO_ROOM:
+                break;
+            default:
+                break;
+        }
+
+        OnObjectiveChanged?.Invoke(newObjective);
+    }
 }
 
 public enum GameState
@@ -82,4 +107,12 @@ public enum GameState
     NIGHT_FOUR,
     NIGHT_FIVE,
     GAME_OVER,
+}
+
+public enum Objective
+{
+    FIND_BS,
+    PLAY_BS,
+    FIND_KEY,
+    GO_TO_ROOM,
 }

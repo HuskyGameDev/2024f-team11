@@ -43,7 +43,7 @@ public class AudioManager : MonoBehaviour
         GUIButtonPress = AudioManager.Instance.CreateInstance(FMODEvents.Instance.GUIButtonPress);
         wakeUp = AudioManager.Instance.CreateInstance(FMODEvents.Instance.WakeUp);
         mainMusic.start();
-
+        mainMusic.setParameterByNameWithLabel("State_Group_MX", "Mini_Game");
     }
 
     private void OnEnable()
@@ -54,6 +54,8 @@ public class AudioManager : MonoBehaviour
         GUIManager.OnSFXSliderChanged += UpdateSFXVolume;
         GUIManager.OnButtonPressed += PlayButtonPressedSound;
         PlayerAnimationHandler.AnimationStarted += PlayWakeUpEvent;
+        InteractWithObject.EnteredRoomString += SetSong;
+        InteractWithObject.ExitedRoomString += SetSong;
     }
 
     private void OnDisable()
@@ -64,6 +66,13 @@ public class AudioManager : MonoBehaviour
         GUIManager.OnSFXSliderChanged -= UpdateSFXVolume;
         GUIManager.OnButtonPressed -= PlayButtonPressedSound;
         PlayerAnimationHandler.AnimationStarted -= PlayWakeUpEvent;
+        InteractWithObject.EnteredRoomString -= SetSong;
+        InteractWithObject.ExitedRoomString -= SetSong;
+    }
+
+    private void SetSong(string label)
+    {
+        mainMusic.setParameterByNameWithLabel("State_Group_MX", label);
     }
 
     public void PlayOneShot(EventReference sound, Vector3 worldPos)
