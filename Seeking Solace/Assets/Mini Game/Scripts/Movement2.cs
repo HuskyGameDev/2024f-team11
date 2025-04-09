@@ -21,6 +21,7 @@ public class Movement2 : MonoBehaviour
     bool hitCeiling;
     Vector3 velocity;
 
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -92,4 +93,6 @@ public class Movement2 : MonoBehaviour
         // Apply movement
         characterController.Move(velocity * Time.deltaTime);
     }
+
+
 }
