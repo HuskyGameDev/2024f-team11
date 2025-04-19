@@ -128,7 +128,7 @@ public class GUIManager : MonoBehaviour
                 textObjective.text = "Find the BS";
                 break;
             case Objective.PLAY_BS:
-                textObjective.text = "Play the BS";
+                textObjective.text = "Press R to play";
                 break;
             case Objective.FIND_KEY:
                 textObjective.text = "Find the key";

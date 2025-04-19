@@ -67,6 +67,7 @@ public class DadAI : MonoBehaviour
         Debug.Log("Night " + nightNum);
         if (nightNum == 0)
         {
+            Debug.Log("Not active this night");
             gameObject.SetActive(false);
             return;
         }
@@ -163,8 +164,8 @@ public class DadAI : MonoBehaviour
 
         if ((Agent.remainingDistance <= 0.1f) != atCurrDest)
         {
-            Debug.Log("Arrived: " + (Agent.remainingDistance <= 0.1f));
-            Debug.Log("Pathing Upstairs: " + pathingUp + ", Pathing Downstairs: " + pathingDown);
+            //Debug.Log("Arrived: " + (Agent.remainingDistance <= 0.1f));
+            //Debug.Log("Pathing Upstairs: " + pathingUp + ", Pathing Downstairs: " + pathingDown);
             if (pathingUp) pathUpstairs2();
             if (pathingDown) tpFloor1();
         }
@@ -255,26 +256,23 @@ public class DadAI : MonoBehaviour
         {
             Wander();
             yield return new WaitForSeconds(Random.Range(3, 6));
-            Debug.Log("Time remaining: " + (startTime - Time.time + loopTime));
+            //Debug.Log("Time remaining: " + (startTime - Time.time + loopTime));
             yield return new WaitForEndOfFrame();
         }
         
         Debug.Log("Adventuring");
         Adventure();
 
-        while (!Agent.pathPending)
+        if (Agent.remainingDistance <= Agent.stoppingDistance)
         {
-            if (Agent.remainingDistance <= Agent.stoppingDistance)
+            if (!Agent.hasPath || Agent.velocity.sqrMagnitude == 0f)
             {
-                if (!Agent.hasPath || Agent.velocity.sqrMagnitude == 0f)
-                {
-                    Debug.Log("Restarting Schedule");
-                    activeSchedule = schedule();
-                    StartCoroutine(activeSchedule);
-                    break;
-                }
+                Debug.Log("Restarting Schedule");
+                activeSchedule = schedule();
+                StartCoroutine(activeSchedule);
             }
         }
+
     }
 
     private void goToAlert(Vector3 alertLocation)
@@ -298,17 +296,13 @@ public class DadAI : MonoBehaviour
 
         //Deal with the alert
 
-        while (!Agent.pathPending)
+        if (Agent.remainingDistance <= Agent.stoppingDistance)
         {
-            if (Agent.remainingDistance <= Agent.stoppingDistance)
+            if (!Agent.hasPath || Agent.velocity.sqrMagnitude == 0f)
             {
-                if (!Agent.hasPath || Agent.velocity.sqrMagnitude == 0f)
-                {
-                    Debug.Log("Restarting Schedule");
-                    activeSchedule = schedule();
-                    StartCoroutine(activeSchedule);
-                    break;
-                }
+                Debug.Log("Restarting Schedule");
+                activeSchedule = schedule();
+                StartCoroutine(activeSchedule);
             }
         }
     }
@@ -343,7 +337,7 @@ public class DadAI : MonoBehaviour
 
     private Vector3 getRoomCenter()
     {
-        Debug.Log("Current room: " + currRoom);
+        //Debug.Log("Current room: " + currRoom);
         return currRoom;
     }
 

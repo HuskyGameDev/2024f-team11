@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.NIGHT_TWO:
                 // Spawn monster
+                StartNight?.Invoke(2);
+                break;
                 //Spawn BS
                 break;
             case GameState.NIGHT_THREE:
@@ -80,6 +82,7 @@ public class GameManager : MonoBehaviour
     public void UpdateObjective(Objective newObjective)
     {
         Objective = newObjective;
+        Debug.Log("New Objective: " + Objective);
 
         switch (newObjective)
         {
